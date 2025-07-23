@@ -1,8 +1,6 @@
 package ru.iteco.fmhandroid.ui.page;
 
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withHint;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
@@ -24,6 +22,7 @@ public class AuthorizationPage {
 
 //        loginField.check(matches(isDisplayed()));
 //        loginField.perform(replaceText("Логин"));
+        //loginField = onView(withText(endsWith("Логин"))).check(matches(isDisplayed()));
         loginField = onView(withHint("Логин"));
         passwordField = onView(withHint("Пароль"));
     }

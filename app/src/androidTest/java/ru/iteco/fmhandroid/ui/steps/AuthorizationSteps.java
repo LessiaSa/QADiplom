@@ -37,7 +37,7 @@ public class AuthorizationSteps {
 
     public static void authorizWithValidData() {
         Allure.step("Авторизация с валидными данными");
-        authorizationPage.loginField.perform(typeText(dataHelper.getValidUser().getLogin()));
+        authorizationPage.loginField.perform(typeText(dataHelper.getValidUser().getLogin()), closeSoftKeyboard());
         authorizationPage.passwordField.perform(typeText(dataHelper.getValidUser().getPassword()), closeSoftKeyboard());
         //fieldIDs.authorizationButtonEnter.check(matches(isDisplayed()));
         fieldIDs.authorizationButtonEnter.perform(click());

@@ -1,21 +1,13 @@
 package ru.iteco.fmhandroid.ui.steps;
 
-import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static org.hamcrest.Matchers.allOf;
 import static ru.iteco.fmhandroid.ui.data.DataHelper.elementWaiting;
 import static ru.iteco.fmhandroid.ui.data.FieldIDs.buttonExitPopUpWindow;
 import static ru.iteco.fmhandroid.ui.data.FieldIDs.buttonLogOut;
 
-import android.view.View;
-
-import org.hamcrest.Matcher;
-
 import io.qameta.allure.kotlin.Allure;
-import ru.iteco.fmhandroid.R;
 import ru.iteco.fmhandroid.ui.data.DataHelper;
 import ru.iteco.fmhandroid.ui.data.FieldIDs;
 

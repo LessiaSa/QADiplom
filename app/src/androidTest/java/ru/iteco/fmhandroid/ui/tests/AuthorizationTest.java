@@ -1,9 +1,7 @@
 package ru.iteco.fmhandroid.ui.tests;
 
-import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import android.view.View;
@@ -19,7 +17,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import ru.iteco.fmhandroid.R;
 import ru.iteco.fmhandroid.ui.AppActivity;
 import ru.iteco.fmhandroid.ui.data.DataHelper;
 import ru.iteco.fmhandroid.ui.data.FieldIDs;
@@ -74,8 +71,8 @@ public class AuthorizationTest {
     @Test
     public void verifyingAuthorizWithValidData() {
         authorizationSteps.authorizWithValidData();
-        //mainSteps.loadingTheMainPage();
-        ViewInteraction textView = onView(withId(R.id.all_news_text_view));
+        mainSteps.loadingTheMainPage();
+        ViewInteraction textView = fieldIDs.newsButton;
         textView.check(matches(isDisplayed()));
         textView.check(matches(withText("ВСЕ НОВОСТИ")));
 

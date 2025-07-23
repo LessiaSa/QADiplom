@@ -133,7 +133,7 @@ public class FieldIDs {
         authorizationButtonEnter = onView(withId(R.id.enter_button));
         mainTitle = onView(withId(R.id.trademark_image_view));
         gestureUpdate = onView(withId(R.id.main_swipe_refresh));
-        newsButton = onView(withId(R.id.all_news_text_view));
+        newsButton = onView(withId(R.id.all_news_text_view)); //кнопка "Все новости"
         newsBlock = withId(R.id.all_news_cards_block_constraint_layout);//блоки с новостями на странице "Новости"
         sortNewsButton = onView(withId(R.id.sort_news_material_button));
         filterNewsButton = onView(withId(R.id.filter_news_material_button));
