@@ -17,13 +17,10 @@ public class AuthorizationSteps {
     static AuthorizationPage authorizationPage = new AuthorizationPage();
 
 
-
-
     public static void applicationHomeScreen() {
         Allure.step("Начальный экран приложения");
         onView(isRoot()).perform(waitDisplayed(ru.iteco.fmhandroid.R.id.splashscreen_image_view, 5000));
     }
-
 
 
     public static void authorizWithValidData() {
@@ -35,7 +32,7 @@ public class AuthorizationSteps {
         fieldIDs.enterButton.perform(click());
     }
 
-    public void authorizationInvalidLogin() {
+    public static void authorizationInvalidLogin() {
         Allure.step("Авторизация с невалидным логином");
         onView(isRoot()).perform(waitDisplayed(authorizationPage.getLoginLayout(), 5000));
         authorizationPage.enteringDataLoginField(dataHelper.getInvalidLogin());
@@ -43,7 +40,8 @@ public class AuthorizationSteps {
         authorizationPage.enteringDataPasswordField(dataHelper.getValidPassword());
         fieldIDs.enterButton.perform(click());
     }
-    public void authorizationInvalidPassword() {
+
+    public static void authorizationInvalidPassword() {
         Allure.step("Авторизация с невалидным паролем");
         onView(isRoot()).perform(waitDisplayed(authorizationPage.getLoginLayout(), 5000));
         authorizationPage.enteringDataLoginField(dataHelper.getValidLogin());
@@ -52,7 +50,7 @@ public class AuthorizationSteps {
         fieldIDs.enterButton.perform(click());
     }
 
-    public void authorizationWithInvalidData() {
+    public static void authorizationWithInvalidData() {
         Allure.step("Авторизация с невалидными и логином и паролем");
         onView(isRoot()).perform(waitDisplayed(authorizationPage.getLoginLayout(), 5000));
         authorizationPage.enteringDataLoginField(dataHelper.getInvalidLogin());
@@ -60,7 +58,8 @@ public class AuthorizationSteps {
         authorizationPage.enteringDataPasswordField(dataHelper.getInvalidPassword());
         fieldIDs.enterButton.perform(click());
     }
-    public void authorizationClickingLogInButtonSeveralTimesWithInvalidData() {
+
+    public static void authorizationClickingLogInButtonSeveralTimesWithInvalidData() {
         Allure.step("Попытка авторизации с невалидным логином и паролем, несколько раз нажав кнопку 'Войти'");
         onView(isRoot()).perform(waitDisplayed(authorizationPage.getLoginLayout(), 5000));
         authorizationPage.enteringDataLoginField(dataHelper.getInvalidLogin());
@@ -70,7 +69,8 @@ public class AuthorizationSteps {
         fieldIDs.enterButton.perform(click());
         fieldIDs.enterButton.perform(click());
     }
-    public void authorizationWithEmptyLoginAndPasswordFields() {
+
+    public static void authorizationWithEmptyLoginAndPasswordFields() {
         Allure.step("Авторизация с незаполненными полями логина и пароля");
         fieldIDs.enterButton.perform(click());
     }

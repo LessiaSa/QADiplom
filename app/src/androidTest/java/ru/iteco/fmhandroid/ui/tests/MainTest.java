@@ -1,5 +1,6 @@
 package ru.iteco.fmhandroid.ui.tests;
 
+
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -19,24 +20,23 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import io.qameta.allure.android.runners.AllureAndroidJUnit4;
 import io.qameta.allure.kotlin.Allure;
+import io.qameta.allure.kotlin.Epic;
 import ru.iteco.fmhandroid.ui.AppActivity;
-import ru.iteco.fmhandroid.ui.data.DataHelper;
 import ru.iteco.fmhandroid.ui.data.FieldIDs;
 import ru.iteco.fmhandroid.ui.page.AuthorizationPage;
 import ru.iteco.fmhandroid.ui.steps.AuthorizationSteps;
 import ru.iteco.fmhandroid.ui.steps.MainSteps;
 
-
 @LargeTest
-@RunWith(AndroidJUnit4.class)
+@RunWith(AllureAndroidJUnit4.class)
 public class MainTest {
     @Rule
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(AppActivity.class);
     MainSteps mainSteps = new MainSteps();
     FieldIDs fieldIDs = new FieldIDs();
-    DataHelper dataHelper = new DataHelper();
     AuthorizationPage authorizationPage = new AuthorizationPage();
     AuthorizationSteps authorizationSteps = new AuthorizationSteps();
     private View decorView;
@@ -57,6 +57,7 @@ public class MainTest {
         }
         mActivityScenarioRule.getScenario().onActivity(activity -> decorView = activity.getWindow().getDecorView());
     }
+
     @After
     public void tearDown() {
         try {
@@ -67,6 +68,7 @@ public class MainTest {
         }
     }
 
+    @Epic(value = "Тест-кейс №7")
     @Test
     public void buttonCollapseToHideNewsBlock() {
         Allure.step("Кнопка 'Свернуть' для скрытия блоков с новостями");
@@ -76,6 +78,8 @@ public class MainTest {
         fieldIDs.buttonCollapse.perform(click());
         fieldIDs.newsButton.check(matches(not(isDisplayed())));
     }
+
+    @Epic(value = "Тест-кейс №8")
     @Test
     public void buttonExpandToExpandNewsBlock() {
         Allure.step("Кнопка'Развернуть' для разворачивания блоков с новостями");

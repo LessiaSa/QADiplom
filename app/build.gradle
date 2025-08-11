@@ -98,6 +98,7 @@ dependencies {
     androidTestImplementation 'androidx.test:rules:1.7.0-rc01'
     androidTestImplementation 'androidx.test:runner:1.4.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-web:3.6.1'
     androidTestImplementation 'io.qameta.allure:allure-kotlin-android:2.4.0'
     androidTestImplementation "androidx.test.uiautomator:uiautomator:2.2.0"
 }

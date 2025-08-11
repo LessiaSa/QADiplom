@@ -15,7 +15,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import io.qameta.allure.android.runners.AllureAndroidJUnit4;
 import io.qameta.allure.kotlin.Allure;
+import io.qameta.allure.kotlin.Epic;
 import ru.iteco.fmhandroid.ui.AppActivity;
 import ru.iteco.fmhandroid.ui.data.FieldIDs;
 import ru.iteco.fmhandroid.ui.page.AuthorizationPage;
@@ -24,7 +26,7 @@ import ru.iteco.fmhandroid.ui.steps.MainSteps;
 import ru.iteco.fmhandroid.ui.steps.NewsPageSteps;
 
 @LargeTest
-@RunWith(AndroidJUnit4.class)
+@RunWith(AllureAndroidJUnit4.class)
 public class NewsPageTest {
     @Rule
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
@@ -51,7 +53,7 @@ public class NewsPageTest {
             authorizationSteps.authorizWithValidData();
             mainSteps.loadingTheMainPage();
         }
-        //mActivityScenarioRule.getScenario().onActivity(activity -> decorView = activity.getWindow().getDecorView());
+        mActivityScenarioRule.getScenario().onActivity(activity -> decorView = activity.getWindow().getDecorView());
     }
 
     @After
@@ -64,6 +66,7 @@ public class NewsPageTest {
         }
     }
 
+    @Epic(value = "Тест-кейс №309")
     @Test
     public void blockNewsExpandButton() {
         Allure.step("Кнопка 'Развернуть' для разворачивания блока новости");

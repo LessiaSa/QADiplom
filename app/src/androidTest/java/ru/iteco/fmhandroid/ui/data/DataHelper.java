@@ -1,11 +1,19 @@
 package ru.iteco.fmhandroid.ui.data;
 
+
+import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
+import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static androidx.test.internal.util.Checks.checkArgument;
+import static org.hamcrest.Matchers.allOf;
 
+import android.text.TextUtils;
 import android.view.View;
 
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.espresso.PerformException;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
@@ -41,7 +49,6 @@ public class DataHelper {
     public static final String needHelpCategory = "Нужна помощь";
 
     public DataHelper() {
-
     }
 
     public String getValidLogin() {
@@ -71,40 +78,39 @@ public class DataHelper {
     //Если параметр положительный - будущая дата, если отрицательный - прошедшая дата
     public static String getDate(int days) {
         LocalDate date = null;
-        if (days > 0) {
-            date = LocalDate.now().plusDays(days); // Будущая дата
-        } else if (days < 0){
+        if (days >= 0) {
+            date = LocalDate.now().plusDays(+days); // Будущая дата
+        } else if (days < 0) {
             date = LocalDate.now().minusDays(-days); // Прошлая дата
-        } else if (days == 0){
-            date = LocalDate.parse(getCurrentDate());
         }
         return date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
     }
 
-       private static final Random random = new Random();
-        private static final List<String> categoryRandom = Arrays.asList(
-                announcementCategory,
-                birthdayCategory,
-                salaryCategory,
-                tradeUnionCategory,
-                holidayCategory,
-                massageCategory,
-                gratitudeCategory,
-                needHelpCategory
-        );
-        public static int categoryRandom(int... items) {
-            return items[random.nextInt(items.length)];
-        }
-        public static String randomCategory() {
-            return categoryRandom.get(random.nextInt(categoryRandom.size()));
+
+    private static final Random random = new Random();
+    private static final List<String> categoryRandom = Arrays.asList(
+            announcementCategory,
+            birthdayCategory,
+            salaryCategory,
+            tradeUnionCategory,
+            holidayCategory,
+            massageCategory,
+            gratitudeCategory,
+            needHelpCategory
+    );
+
+    public static int categoryRandom(int... items) {
+        return items[random.nextInt(items.length)];
     }
 
-
-
+    public static String randomCategory() {
+        return categoryRandom.get(random.nextInt(categoryRandom.size()));
+    }
 
 
     /**
      * Perform action of waiting for a specific view id to be displayed.
+     *
      * @param viewId The id of the view to wait for.
      * @param millis The timeout of until when to wait for.
      */
@@ -166,4 +172,21 @@ public class DataHelper {
             }
         };
     }
+
+
+    public Matcher<View> withItemText(final String itemText) {
+        checkArgument(!TextUtils.isEmpty(itemText), "cannot be null");
+        return new TypeSafeMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View item) {
+                return allOf(isDescendantOfA(isAssignableFrom(RecyclerView.class)), withText(itemText)).matches(item);
+            }
+
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("is descendant of a RecyclerView with text" + itemText);
+            }
+        };
+    }
+
 }
