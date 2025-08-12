@@ -63,7 +63,7 @@ public class QuotesTest {
             mainSteps.loadingTheMainPage();
             mainSteps.buttonQuotesOfTheMainPage();
         }
-        mActivityScenarioRule.getScenario().onActivity(activity -> decorView = activity.getWindow().getDecorView());
+        //mActivityScenarioRule.getScenario().onActivity(activity -> decorView = activity.getWindow().getDecorView());
     }
 
     @After
