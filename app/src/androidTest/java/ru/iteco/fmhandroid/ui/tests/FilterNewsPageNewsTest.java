@@ -11,7 +11,6 @@ import static org.hamcrest.Matchers.not;
 import android.view.View;
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 
 import org.junit.After;
@@ -171,6 +170,6 @@ public class FilterNewsPageNewsTest {
         Allure.step("Отмена фильтрации при незаполненном ни одном поле");
         filterNewsSteps.cancelNewFilteringButton();
         newsPageSteps.vizibilityOfAllNewsBlocksOnTheNewsPage();
-       }
+    }
 
 }

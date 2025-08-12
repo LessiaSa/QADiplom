@@ -76,6 +76,7 @@ public class CreateNewsSteps {
         onView(withIndex(withId(R.id.news_item_create_date_text_view), 0))
                 .check(matches(withText(getCurrentDate())));
     }
+
     public void vizibilityContainerCreateNews() {
         Allure.step("Видимость вкладки 'Создание новости'");
         onView(isRoot()).perform(waitDisplayed(fieldIDs.containerCreateNews, 5000));

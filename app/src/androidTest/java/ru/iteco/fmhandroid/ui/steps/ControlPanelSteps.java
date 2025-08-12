@@ -46,7 +46,7 @@ public class ControlPanelSteps {
         onView(withIndex(withId(R.id.news_item_published_text_view), 0)).check(matches(withText("Не активна")));
     }
 
-    public  void vizibilityNewsListControlPanel() {
+    public void vizibilityNewsListControlPanel() {
         Allure.step("Видимость всех новостей на странице 'Панель управления'");
         onView(isRoot()).perform(waitDisplayed(fieldIDs.newsListControlPanel, 5000));
     }
