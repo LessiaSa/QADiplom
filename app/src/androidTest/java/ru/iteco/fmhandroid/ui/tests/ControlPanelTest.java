@@ -1,21 +1,17 @@
 package ru.iteco.fmhandroid.ui.tests;
 
 
+import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static ru.iteco.fmhandroid.ui.data.DataHelper.withIndex;
 
 import android.view.View;
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.filters.LargeTest;
 
-import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -25,11 +21,11 @@ import org.junit.runner.RunWith;
 import io.qameta.allure.android.runners.AllureAndroidJUnit4;
 import io.qameta.allure.kotlin.Allure;
 import io.qameta.allure.kotlin.Epic;
-import ru.iteco.fmhandroid.R;
 import ru.iteco.fmhandroid.ui.AppActivity;
 import ru.iteco.fmhandroid.ui.data.DataHelper;
-import ru.iteco.fmhandroid.ui.data.FieldIDs;
 import ru.iteco.fmhandroid.ui.page.AuthorizationPage;
+import ru.iteco.fmhandroid.ui.page.CheckingPage;
+import ru.iteco.fmhandroid.ui.page.ControlPanelPage;
 import ru.iteco.fmhandroid.ui.steps.AuthorizationSteps;
 import ru.iteco.fmhandroid.ui.steps.BurgerMenuSteps;
 import ru.iteco.fmhandroid.ui.steps.ControlPanelSteps;
@@ -53,11 +49,12 @@ public class ControlPanelTest {
     AuthorizationSteps authorizationSteps = new AuthorizationSteps();
     FilterNewsSteps filterNewsSteps = new FilterNewsSteps();
     ControlPanelSteps controlPanelSteps = new ControlPanelSteps();
-    FieldIDs fieldIDs = new FieldIDs();
+    ControlPanelPage controlPanelPage = new ControlPanelPage();
     CreateNewsSteps createNewsSteps = new CreateNewsSteps();
     CreateEndDeleneNewsSteps createEndDeleneNewsSteps = new CreateEndDeleneNewsSteps();
     DataHelper dataHelper = new DataHelper();
     BurgerMenuSteps burgerMenuSteps = new BurgerMenuSteps();
+    CheckingPage checkingPage = new CheckingPage();
     private View decorView;
 
     @Before
@@ -121,7 +118,7 @@ public class ControlPanelTest {
             burgerMenuSteps.selectingNewsPageInBurgerMenu();
             newsPageSteps.clickOnTheControlPanel();
             controlPanelSteps.buttonEditingNews();
-            fieldIDs.switcherActiveNotActiveNews.check(matches(isDisplayed())).perform(click());
+            controlPanelPage.switcherActiveNotActiveNews.check(matches(isDisplayed())).perform(click());
             createNewsSteps.saveNewsButton();
             newsPageSteps.clickOnTheFilterNews();
             filterNewsSteps.checkThatNewsActive();
@@ -163,8 +160,8 @@ public class ControlPanelTest {
     public void deleteNews() {
         Allure.step("Удаление новости");
         createEndDeleneNewsSteps.createNewsForDifferendNeeds();
-        controlPanelSteps.deleteNewsOnTheNewsBlock();
-        onView(Matchers.allOf(withId(R.id.news_item_title_text_view), withText("Снова рады сообщить"))).check(doesNotExist());
+        createEndDeleneNewsSteps.deleteNewsOnTheNewsBlock();
+        checkingPage.checkDoesNotExist();
     }
 
     @Epic(value = "Тест-кейс №55")
@@ -173,21 +170,17 @@ public class ControlPanelTest {
         Allure.step("Редактирование описания новости");
         createEndDeleneNewsSteps.createNewsForDifferendNeeds();
         controlPanelSteps.buttonEditingNews();
-        createNewsSteps.enteringTheTextInTheDescriptionField("Расскажите всем!");
+        createNewsSteps.enteringTheTextInTheDescriptionField(checkingPage.descriptionTellEveryone);
         createNewsSteps.saveNewsButton();
-
         controlPanelSteps.newsControlPanelSwipeToRefresh();
         controlPanelSteps.vizibilityNewsListControlPanel();
         newsPageSteps.vizibilityOfOneNewsBlock();
-        onView(dataHelper.withItemText("Снова рады сообщить")).perform(click());
+        onView(dataHelper.withItemText(checkingPage.title)).perform(click());
         newsPageSteps.vizibilityDescriptionNews();
-        onView(withIndex(withId(R.id.news_item_description_text_view), 0))
-                .check(matches(withText("Расскажите всем!")));
-
-        fieldIDs.buttonDeleteNews.perform(click());
-        controlPanelSteps.clickButtonOkDeleteNews();
-        onView(Matchers.allOf(withId(R.id.news_item_title_text_view), withText("Снова рады сообщить"))).check(doesNotExist());
+        checkingPage.checkingDescriptionTellEveryone();
+        createEndDeleneNewsSteps.deleteNewsOnTheNewsBlock();
     }
+
 
     @Epic(value = "Тест-кейс №52")
     @Test
@@ -196,19 +189,15 @@ public class ControlPanelTest {
         createEndDeleneNewsSteps.createNewsForDifferendNeeds();
         controlPanelSteps.buttonEditingNews();
         createNewsSteps.clickOnTheHeaderField();
-        createNewsSteps.enteringTextTitleField("Здравствуйте!");
+        createNewsSteps.enteringTextTitleField(checkingPage.titleHello);
         createNewsSteps.saveNewsButton();
         controlPanelSteps.newsControlPanelSwipeToRefresh();
         controlPanelSteps.vizibilityNewsListControlPanel();
         newsPageSteps.vizibilityOfOneNewsBlock();
-        onView(dataHelper.withItemText("Здравствуйте!")).perform(click());
+        onView(dataHelper.withItemText(checkingPage.titleHello)).perform(click());
         newsPageSteps.vizibilityDescriptionNews();
-        onView(withIndex(withId(R.id.news_item_title_text_view), 0))
-                .check(matches(withText("Здравствуйте!")));
-
-        fieldIDs.buttonDeleteNews.perform(click());
-        controlPanelSteps.clickButtonOkDeleteNews();
-        onView(Matchers.allOf(withId(R.id.news_item_title_text_view), withText("Здравствуйте!"))).check(doesNotExist());
+        checkingPage.checkingIsDisplayedHello();
+        createEndDeleneNewsSteps.deleteNewsOnTheNewsBlock();
     }
 
     @Epic(value = "Тест-кейс №56")
@@ -217,16 +206,13 @@ public class ControlPanelTest {
         Allure.step("Изменение статуса уже опубликованной новости");
         createEndDeleneNewsSteps.createNewsForDifferendNeeds();
         controlPanelSteps.buttonEditingNews();
-        fieldIDs.switcherActiveNotActiveNews.check(matches(isDisplayed())).perform(click());
+        controlPanelPage.switcherActiveNotActiveNews.check(matches(isDisplayed())).perform(click());
         createNewsSteps.saveNewsButton();
         newsPageSteps.vizibilityOfOneNewsBlock();
-        onView(dataHelper.withItemText("Снова рады сообщить")).perform(click());
+        onView(dataHelper.withItemText(checkingPage.title)).perform(click());
         controlPanelSteps.vizibilityInformationWhetherNewsIsActiveOrNotActive();
         controlPanelSteps.checkingInformationWhetherNewsNotActive();
-
-        fieldIDs.buttonDeleteNews.perform(click());
-        controlPanelSteps.clickButtonOkDeleteNews();
-        onView(Matchers.allOf(withId(R.id.news_item_title_text_view), withText("Снова рады сообщить"))).check(doesNotExist());
+        createEndDeleneNewsSteps.deleteNewsOnTheNewsBlock();
     }
 
     @Epic(value = "Тест-кейс №58")
@@ -236,17 +222,10 @@ public class ControlPanelTest {
         createEndDeleneNewsSteps.createNewsForDifferendNeeds();
         controlPanelSteps.buttonEditingNews();
         createNewsSteps.clickOnTheHeaderField();
-        createNewsSteps.enteringTextTitleField("Здравствуйте!");
+        createNewsSteps.enteringTextTitleField(checkingPage.titleHello);
         createNewsSteps.canselButtonUniversal();
-        onView(Matchers.allOf(withId(R.id.news_item_title_text_view), withText("Здравствуйте!"))).check(doesNotExist());
-
-        newsPageSteps.vizibilityOfOneNewsBlock();
-        onView(dataHelper.withItemText("Снова рады сообщить")).perform(click());
-        fieldIDs.buttonDeleteNews.perform(click());
-        controlPanelSteps.clickButtonOkDeleteNews();
-        onView(Matchers.allOf(withId(R.id.news_item_title_text_view), withText("Снова рады сообщить"))).check(doesNotExist());
-
-
+        checkingPage.checkHelloDoesNotExist();
+        createEndDeleneNewsSteps.deleteNewsOnTheNewsBlock();
     }
 
     @Epic(value = "Тест-кейс №59")
@@ -256,17 +235,11 @@ public class ControlPanelTest {
         createEndDeleneNewsSteps.createNewsForDifferendNeeds();
         controlPanelSteps.buttonEditingNews();
         createNewsSteps.canselButtonUniversal();
-
         controlPanelSteps.newsControlPanelSwipeToRefresh();
         controlPanelSteps.vizibilityNewsListControlPanel();
         newsPageSteps.vizibilityOfOneNewsBlock();
-        onView(withIndex(withId(R.id.news_item_title_text_view), 0))
-                .check(matches(withText("Снова рады сообщить")));
-
-        onView(dataHelper.withItemText("Снова рады сообщить")).perform(click());
-        fieldIDs.buttonDeleteNews.perform(click());
-        controlPanelSteps.clickButtonOkDeleteNews();
-        onView(Matchers.allOf(withId(R.id.news_item_title_text_view), withText("Снова рады сообщить"))).check(doesNotExist());
+        checkingPage.checkingIsDisplayed();
+        createEndDeleneNewsSteps.deleteNewsOnTheNewsBlock();
     }
 
     @Epic(value = "Тест-кейс №69")
@@ -277,10 +250,7 @@ public class ControlPanelTest {
         controlPanelSteps.vizibilityNewsListControlPanel();
         newsPageSteps.vizibilityOfOneNewsBlock();
         createNewsSteps.checkingDatePublicationNewsBlockNews();
-
-        fieldIDs.buttonDeleteNews.perform(click());
-        controlPanelSteps.clickButtonOkDeleteNews();
-        onView(Matchers.allOf(withId(R.id.news_item_title_text_view), withText("Снова рады сообщить"))).check(doesNotExist());
+        createEndDeleneNewsSteps.deleteNewsOnTheNewsBlock();
     }
 
     @Epic(value = "Тест-кейс №63")
@@ -291,6 +261,7 @@ public class ControlPanelTest {
         filterNewsSteps.openingTheCategoryField();
         filterNewsSteps.enterCategoryNewsForNewsPage();
         filterNewsSteps.openingTheCategoryField();
+        closeSoftKeyboard();
         createNewsSteps.saveNewsButton();
         controlPanelSteps.newsControlPanelSwipeToRefresh();
         controlPanelSteps.vizibilityNewsListControlPanel();
@@ -298,15 +269,15 @@ public class ControlPanelTest {
         createNewsSteps.checkingDisplayedDateOfTheNewsCreation();
     }
 
-//    @Epic(value = "Тест-кейс №62")
-//    @Test
-//    public void displayedDateOfTheNewsCreation() {
-//        Allure.step("Отображаемая дата создания новости на блоке новости.ТЕСТ ДОЛЖЕН УПАСТЬ");
-//        createEndDeleneNewsSteps.createNewsForDifferendNeeds();
-//        controlPanelSteps.vizibilityNewsListControlPanel();
-//        newsPageSteps.vizibilityOfOneNewsBlock();
-//        createNewsSteps.checkingDisplayedDateOfTheNewsCreation();
-//    }
+    @Epic(value = "Тест-кейс №62")
+    @Test
+    public void displayedDateOfTheNewsCreation() {
+        Allure.step("Отображаемая дата создания новости на блоке новости.ТЕСТ ДОЛЖЕН УПАСТЬ");
+        createEndDeleneNewsSteps.createNewsForDifferendNeeds();
+        controlPanelSteps.vizibilityNewsListControlPanel();
+        newsPageSteps.vizibilityOfOneNewsBlock();
+        createNewsSteps.checkingDisplayedDateOfTheNewsCreation();
+    }
 
 
 }

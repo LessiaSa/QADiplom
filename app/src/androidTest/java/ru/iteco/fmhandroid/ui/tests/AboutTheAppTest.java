@@ -1,14 +1,8 @@
 package ru.iteco.fmhandroid.ui.tests;
 
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
-
 import android.view.View;
 
-import androidx.test.espresso.ViewInteraction;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 
 import org.junit.After;
@@ -21,8 +15,8 @@ import io.qameta.allure.android.runners.AllureAndroidJUnit4;
 import io.qameta.allure.kotlin.Allure;
 import io.qameta.allure.kotlin.Epic;
 import ru.iteco.fmhandroid.ui.AppActivity;
-import ru.iteco.fmhandroid.ui.data.FieldIDs;
 import ru.iteco.fmhandroid.ui.page.AuthorizationPage;
+import ru.iteco.fmhandroid.ui.page.NewsPage;
 import ru.iteco.fmhandroid.ui.steps.AboutTheAppSteps;
 import ru.iteco.fmhandroid.ui.steps.AuthorizationSteps;
 import ru.iteco.fmhandroid.ui.steps.BurgerMenuSteps;
@@ -35,7 +29,7 @@ public class AboutTheAppTest {
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(AppActivity.class);
     MainSteps mainSteps = new MainSteps();
-    FieldIDs fieldIDs = new FieldIDs();
+    NewsPage newsPage = new NewsPage();
     AuthorizationPage authorizationPage = new AuthorizationPage();
     AuthorizationSteps authorizationSteps = new AuthorizationSteps();
     BurgerMenuSteps burgerMenuSteps = new BurgerMenuSteps();
@@ -105,9 +99,7 @@ public class AboutTheAppTest {
         Allure.step("Возвращение на предыдущую страницу по кнопке 'Назад'");
         aboutTheAppSteps.buttonToReturnPreviousPage();
         mainSteps.loadingTheMainPage();
-        ViewInteraction textView = fieldIDs.newsButton;
-        textView.check(matches(isDisplayed()));
-        textView.check(matches(withText("ВСЕ НОВОСТИ")));
+        mainSteps.vizibilityHomePage();
     }
 
 }

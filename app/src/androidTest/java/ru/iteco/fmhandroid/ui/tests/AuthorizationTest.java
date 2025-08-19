@@ -1,15 +1,9 @@
 package ru.iteco.fmhandroid.ui.tests;
 
 
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
-
 import android.view.View;
 
-import androidx.test.espresso.ViewInteraction;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 
 import org.junit.After;
@@ -22,7 +16,6 @@ import io.qameta.allure.android.runners.AllureAndroidJUnit4;
 import io.qameta.allure.kotlin.Allure;
 import io.qameta.allure.kotlin.Epic;
 import ru.iteco.fmhandroid.ui.AppActivity;
-import ru.iteco.fmhandroid.ui.data.FieldIDs;
 import ru.iteco.fmhandroid.ui.page.AuthorizationPage;
 import ru.iteco.fmhandroid.ui.steps.AuthorizationSteps;
 import ru.iteco.fmhandroid.ui.steps.MainSteps;
@@ -36,7 +29,6 @@ public class AuthorizationTest {
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(AppActivity.class);
     MainSteps mainSteps = new MainSteps();
-    FieldIDs fieldIDs = new FieldIDs();
     AuthorizationSteps authorizationSteps = new AuthorizationSteps();
     AuthorizationPage authorizationPage = new AuthorizationPage();
     private View decorView;
@@ -58,16 +50,13 @@ public class AuthorizationTest {
     }
 
 
-
     @Epic(value = "Тест-кейс №223")
     @Test
     public void verifyingAuthorizWithValidData() {
         Allure.step("Авторизация с валидными данными");
         authorizationSteps.authorizWithValidData();
         mainSteps.loadingTheMainPage();
-        ViewInteraction textView = fieldIDs.newsButton;
-        textView.check(matches(isDisplayed()));
-        textView.check(matches(withText("ВСЕ НОВОСТИ")));
+        mainSteps.vizibilityHomePage();
     }
 
     @Epic(value = "Тест-кейс №224")
@@ -75,19 +64,15 @@ public class AuthorizationTest {
     public void authorizationWithValidLoginAndInvalidPassword() {
         Allure.step("Авторизация с валидным логином и невалидным паролем");
         authorizationSteps.authorizationInvalidPassword();
-        ViewInteraction textViewAuthoriz = fieldIDs.enterButton;
-        textViewAuthoriz.check(matches(isDisplayed()));
-        textViewAuthoriz.check(matches(withText("Войти")));
+        mainSteps.vizibilityHomePage();
     }
 
     @Epic(value = "Тест-кейс №225")
     @Test
-    public  void authorizationWithInvalidLoginAndValidPassword() {
+    public void authorizationWithInvalidLoginAndValidPassword() {
         Allure.step("Авторизация с невалидным логином и валидным паролем");
         authorizationSteps.authorizationInvalidLogin();
-        ViewInteraction textViewAuthoriz = fieldIDs.enterButton;
-        textViewAuthoriz.check(matches(isDisplayed()));
-        textViewAuthoriz.check(matches(withText("Войти")));
+        mainSteps.vizibilityHomePage();
     }
 
     @Epic(value = "Тест-кейс №226")
@@ -95,9 +80,7 @@ public class AuthorizationTest {
     public void authorizationWithInvalidLoginAndInvalidPassword() {
         Allure.step("Авторизация с невалидными логином и паролем");
         authorizationSteps.authorizationWithInvalidData();
-        ViewInteraction textViewAuthoriz = fieldIDs.enterButton;
-        textViewAuthoriz.check(matches(isDisplayed()));
-        textViewAuthoriz.check(matches(withText("Войти")));
+        mainSteps.vizibilityHomePage();
     }
 
     @Epic(value = "Тест-кейс №227")
@@ -105,9 +88,7 @@ public class AuthorizationTest {
     public void loggingInWithInvalidLoginAndPasswordByClickingSeverialTimesButton() {
         Allure.step("Авторизация с невалидными логином и паролем, несколько раз нажав кнопку 'Войти'");
         authorizationSteps.authorizationClickingLogInButtonSeveralTimesWithInvalidData();
-        ViewInteraction textViewAuthoriz = fieldIDs.enterButton;
-        textViewAuthoriz.check(matches(isDisplayed()));
-        textViewAuthoriz.check(matches(withText("Войти")));
+        mainSteps.vizibilityHomePage();
     }
 
     @Epic(value = "Тест-кейс №228")
@@ -115,10 +96,9 @@ public class AuthorizationTest {
     public void authorizationWithEmptyLoginAndPassword() {
         Allure.step("Авторизация с пустыми полями логина и пароля");
         authorizationSteps.authorizationWithEmptyLoginAndPasswordFields();
-        ViewInteraction textViewAuthoriz = fieldIDs.enterButton;
-        textViewAuthoriz.check(matches(isDisplayed()));
-        textViewAuthoriz.check(matches(withText("Войти")));
+        mainSteps.vizibilityHomePage();
     }
+
     @After
     public void tearDown() {
         try {

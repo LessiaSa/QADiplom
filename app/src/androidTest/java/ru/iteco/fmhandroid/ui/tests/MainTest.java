@@ -23,8 +23,8 @@ import io.qameta.allure.android.runners.AllureAndroidJUnit4;
 import io.qameta.allure.kotlin.Allure;
 import io.qameta.allure.kotlin.Epic;
 import ru.iteco.fmhandroid.ui.AppActivity;
-import ru.iteco.fmhandroid.ui.data.FieldIDs;
 import ru.iteco.fmhandroid.ui.page.AuthorizationPage;
+import ru.iteco.fmhandroid.ui.page.NewsPage;
 import ru.iteco.fmhandroid.ui.steps.AuthorizationSteps;
 import ru.iteco.fmhandroid.ui.steps.MainSteps;
 
@@ -35,7 +35,7 @@ public class MainTest {
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(AppActivity.class);
     MainSteps mainSteps = new MainSteps();
-    FieldIDs fieldIDs = new FieldIDs();
+    NewsPage newsPage = new NewsPage();
     AuthorizationPage authorizationPage = new AuthorizationPage();
     AuthorizationSteps authorizationSteps = new AuthorizationSteps();
     private View decorView;
@@ -71,21 +71,21 @@ public class MainTest {
     @Test
     public void buttonCollapseToHideNewsBlock() {
         Allure.step("Кнопка 'Свернуть' для скрытия блоков с новостями");
-        ViewInteraction textView = fieldIDs.newsButton;
+        ViewInteraction textView = newsPage.newsButton;
         textView.check(matches(isDisplayed()));
         textView.check(matches(withText("ВСЕ НОВОСТИ")));
-        fieldIDs.buttonCollapse.perform(click());
-        fieldIDs.newsButton.check(matches(not(isDisplayed())));
+        newsPage.buttonCollapse.perform(click());
+        newsPage.newsButton.check(matches(not(isDisplayed())));
     }
 
     @Epic(value = "Тест-кейс №8")
     @Test
     public void buttonExpandToExpandNewsBlock() {
         Allure.step("Кнопка'Развернуть' для разворачивания блоков с новостями");
-        fieldIDs.buttonCollapse.perform(click());
-        fieldIDs.newsButton.check(matches(not(isDisplayed())));
-        fieldIDs.buttonCollapse.perform(click());
-        ViewInteraction textView = fieldIDs.newsButton;
+        newsPage.buttonCollapse.perform(click());
+        newsPage.newsButton.check(matches(not(isDisplayed())));
+        newsPage.buttonCollapse.perform(click());
+        ViewInteraction textView = newsPage.newsButton;
         textView.check(matches(isDisplayed()));
         textView.check(matches(withText("ВСЕ НОВОСТИ")));
     }

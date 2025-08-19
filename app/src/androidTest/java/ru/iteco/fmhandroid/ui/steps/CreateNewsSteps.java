@@ -17,51 +17,53 @@ import static ru.iteco.fmhandroid.ui.data.DataHelper.withIndex;
 
 import io.qameta.allure.kotlin.Allure;
 import ru.iteco.fmhandroid.R;
-import ru.iteco.fmhandroid.ui.data.FieldIDs;
+import ru.iteco.fmhandroid.ui.page.CreateNewsPage;
+import ru.iteco.fmhandroid.ui.page.FilterNewsPage;
 
 public class CreateNewsSteps {
-    FieldIDs fieldIDs = new FieldIDs();
+    FilterNewsPage filterNewsPage = new FilterNewsPage();
+    CreateNewsPage createNewsPage = new CreateNewsPage();
     ControlPanelSteps controlPanelSteps = new ControlPanelSteps();
 
 
     public void clickOnTheHeaderField() {
         Allure.step("Клик по полю 'Заголовок' при создании новости");
-        fieldIDs.headerFieldNews.check(matches(isDisplayed())).perform(click());
+        createNewsPage.headerFieldNews.check(matches(isDisplayed())).perform(click());
     }
 
     public void enteringTextTitleField(String text) {
         Allure.step("Вводим текст в поле 'Заголовок'");
-        fieldIDs.headerFieldNews.perform(click(), clearText(), replaceText(text), closeSoftKeyboard());
+        createNewsPage.headerFieldNews.perform(click(), clearText(), replaceText(text), closeSoftKeyboard());
     }
 
     public void datePublicationNewsField() {
         Allure.step("Поле 'Дата публикации'");
-        fieldIDs.datePublicationNews.check(matches(isDisplayed())).perform(click());
+        createNewsPage.datePublicationNews.check(matches(isDisplayed())).perform(click());
     }
 
     public void timePublicationNewsField() {
         Allure.step("Поле 'Время публикации'");
-        fieldIDs.timePublicationNews.check(matches(isDisplayed())).perform(click());
+        createNewsPage.timePublicationNews.check(matches(isDisplayed())).perform(click());
     }
 
     public void clickDescriptionNewsField() {
         Allure.step("Клик по полю 'Описание'");
-        fieldIDs.descriptionNews.check(matches(isDisplayed())).perform(click());
+        createNewsPage.descriptionNews.check(matches(isDisplayed())).perform(click());
     }
 
     public void enteringTheTextInTheDescriptionField(String text) {
         Allure.step("Вводим текст в поле 'Описание'");
-        fieldIDs.descriptionNews.perform(click(), clearText(), replaceText(text), closeSoftKeyboard());
+        createNewsPage.descriptionNews.perform(click(), clearText(), replaceText(text), closeSoftKeyboard());
     }
 
     public void saveNewsButton() {
         Allure.step("Кнопка 'Сохранить' при создании новости");
-        fieldIDs.buttonSaveNews.check(matches(isDisplayed())).perform(click());
+        createNewsPage.buttonSaveNews.check(matches(isDisplayed())).perform(click());
     }
 
     public void canselButtonUniversal() {
         Allure.step("Кнопка 'Отмена'");
-        fieldIDs.buttonCancelNews.check(matches(isDisplayed())).perform(click());
+        filterNewsPage.buttonCancelNews.check(matches(isDisplayed())).perform(click());
         controlPanelSteps.clickButtonOkDeleteNews();
     }
 
@@ -79,7 +81,7 @@ public class CreateNewsSteps {
 
     public void vizibilityContainerCreateNews() {
         Allure.step("Видимость вкладки 'Создание новости'");
-        onView(isRoot()).perform(waitDisplayed(fieldIDs.containerCreateNews, 5000));
+        onView(isRoot()).perform(waitDisplayed(createNewsPage.containerCreateNews, 5000));
     }
 
 }

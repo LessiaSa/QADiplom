@@ -7,6 +7,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withHint;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static ru.iteco.fmhandroid.ui.data.DataHelper.waitDisplayed;
 
@@ -14,10 +15,13 @@ import androidx.test.espresso.ViewInteraction;
 
 import io.qameta.allure.kotlin.Allure;
 import ru.iteco.fmhandroid.R;
-import ru.iteco.fmhandroid.ui.data.FieldIDs;
 
 public class AuthorizationPage {
-    static FieldIDs fieldIDs = new FieldIDs();
+    public static int authorizationButtonEnter = R.id.enter_button;
+    public static ViewInteraction enterButton = onView(withId(R.id.enter_button));
+    //Кнока "Выйти"
+    public static ViewInteraction buttonLogOut = onView(withId(R.id.authorization_image_button));
+    public static ViewInteraction buttonExitPopUpWindow = onView(allOf(withId(android.R.id.title), withText("Выйти")));
 
     public static ViewInteraction loginField;
     public static ViewInteraction passwordField;
@@ -53,6 +57,6 @@ public class AuthorizationPage {
 
     public void titleAuthorizationText() {
         Allure.step("Отображается страница авторизации");
-        onView(isRoot()).perform(waitDisplayed(fieldIDs.authorizationButtonEnter, 5000));
+        onView(isRoot()).perform(waitDisplayed(authorizationButtonEnter, 5000));
     }
 }

@@ -12,15 +12,15 @@ import org.hamcrest.Matchers;
 
 import io.qameta.allure.kotlin.Allure;
 import ru.iteco.fmhandroid.ui.data.DataHelper;
-import ru.iteco.fmhandroid.ui.data.FieldIDs;
+import ru.iteco.fmhandroid.ui.page.FilterNewsPage;
 
 public class FilterNewsSteps {
-    FieldIDs fieldIDs = new FieldIDs();
+    FilterNewsPage filterNewsPage = new FilterNewsPage();
     DataHelper dataHelper = new DataHelper();
 
     public void openingTheCategoryField() {
         Allure.step("Раскрытие поля 'Категория'");
-        fieldIDs.categoryNews.check(matches(isDisplayed())).perform(click());
+        filterNewsPage.categoryNews.check(matches(isDisplayed())).perform(click());
     }
 
     public void enterCategoryNewsForNewsPage() {
@@ -36,38 +36,38 @@ public class FilterNewsSteps {
 
     public void dateDetectionLeftField() {
         Allure.step("Клик по левому полю 'ДД.ММ.ГГГГ'");
-        fieldIDs.dateLeftNews.check(matches(isDisplayed())).perform(click());
+        filterNewsPage.dateLeftNews.check(matches(isDisplayed())).perform(click());
     }
 
     public void dateDetectionRightField() {
         Allure.step("Клик по правому полю 'ДД.ММ.ГГГГ'");
-        fieldIDs.dateRightNews.check(matches(isDisplayed())).perform(click());
+        filterNewsPage.dateRightNews.check(matches(isDisplayed())).perform(click());
     }
 
     public void buttonOkInThePopUpMessageToConfirmTheSelection() {
         Allure.step("Кнопка 'Ок' во всплывающем сообщении для подтверждения выбора");
-        fieldIDs.buttonOkDate.check(matches(isDisplayed())).perform(click());
+        filterNewsPage.buttonOkDate.check(matches(isDisplayed())).perform(click());
     }
 
     public void checkThatNewsActive() {
         Allure.step("Нажать галочку 'Активна'");
-        fieldIDs.checkmarkActiveFilterNews.check(matches(isDisplayed())).perform(click());
+        filterNewsPage.checkmarkActiveFilterNews.check(matches(isDisplayed())).perform(click());
     }
 
     public void checkThatNewsNotActive() {
         Allure.step("Нажать галочку 'Не активна'");
-        fieldIDs.checkmarkNotActiveFilterNews.check(matches(isDisplayed())).perform(click());
+        filterNewsPage.checkmarkNotActiveFilterNews.check(matches(isDisplayed())).perform(click());
     }
 
 
     public void filterButtonForFilteringNews() {
         Allure.step("Кнопка 'Фильтровать' для фильтрации новостей");
-        fieldIDs.buttonFilterNews.check(matches(isDisplayed())).perform(click());
+        filterNewsPage.buttonFilterNews.check(matches(isDisplayed())).perform(click());
     }
 
     public void cancelNewFilteringButton() {
         Allure.step("Кнопка 'Отмена' фильтрации новостей");
-        fieldIDs.buttonCancelNews.check(matches(isDisplayed())).perform(click());
+        filterNewsPage.buttonCancelNews.check(matches(isDisplayed())).perform(click());
     }
 
 }

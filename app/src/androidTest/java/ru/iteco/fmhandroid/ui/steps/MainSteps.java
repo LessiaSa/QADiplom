@@ -6,14 +6,23 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static ru.iteco.fmhandroid.ui.data.DataHelper.waitDisplayed;
+
+import androidx.test.espresso.ViewInteraction;
 
 import io.qameta.allure.kotlin.Allure;
 import ru.iteco.fmhandroid.R;
-import ru.iteco.fmhandroid.ui.data.FieldIDs;
+import ru.iteco.fmhandroid.ui.page.AuthorizationPage;
+import ru.iteco.fmhandroid.ui.page.ControlPanelPage;
+import ru.iteco.fmhandroid.ui.page.NewsPage;
+import ru.iteco.fmhandroid.ui.page.QuotePage;
 
 public class MainSteps {
-    FieldIDs fieldIDs = new FieldIDs();
+    NewsPage newsPage = new NewsPage();
+    QuotePage quotePage = new QuotePage();
+    ControlPanelPage controlPanelPage = new ControlPanelPage();
+    AuthorizationPage authorizationPage = new AuthorizationPage();
 
 
     public void loadingTheMainPage() {
@@ -23,27 +32,33 @@ public class MainSteps {
 
     public void allNewsButtonOnTheAppsHomePage() {
         Allure.step("кнопка 'Все новости' на главной странице приложения");
-        fieldIDs.newsButton.perform(click());
+        newsPage.newsButton.perform(click());
     }
 
     public void buttonBurgerMenuOfTheDifferentPages() {
         Allure.step("Кнопка BurgerMenu");
-        fieldIDs.buttonBurgerMenu.check(matches(isDisplayed())).perform(click());
+        controlPanelPage.buttonBurgerMenu.check(matches(isDisplayed())).perform(click());
     }
 
     public void buttonQuotesOfTheMainPage() {
         Allure.step("Кнопка для перехода на страницу с цитатами");
-        fieldIDs.buttonQuotes.check(matches(isDisplayed())).perform(click());
+        quotePage.buttonQuotes.check(matches(isDisplayed())).perform(click());
     }
 
     public void buttonLogOutProfile() {
         Allure.step("Кнопка с абстрактным изображением человека для выхода из профиля");
         onView(isRoot()).perform(waitDisplayed(R.id.authorization_image_button, 5000));
-        fieldIDs.buttonLogOut.perform(click());
+        authorizationPage.buttonLogOut.perform(click());
     }
 
     public void logOutPopUpOfTheProfile() {
         Allure.step("Всплывающая кнопка 'Выйти'");
-        fieldIDs.buttonExitPopUpWindow.perform(click());
+        authorizationPage.buttonExitPopUpWindow.perform(click());
+    }
+
+    public void vizibilityHomePage() {
+        ViewInteraction textView = newsPage.newsButton;
+        textView.check(matches(isDisplayed()));
+        textView.check(matches(withText("ВСЕ НОВОСТИ")));
     }
 }

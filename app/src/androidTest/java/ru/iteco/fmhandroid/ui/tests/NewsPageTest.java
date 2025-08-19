@@ -18,8 +18,8 @@ import io.qameta.allure.android.runners.AllureAndroidJUnit4;
 import io.qameta.allure.kotlin.Allure;
 import io.qameta.allure.kotlin.Epic;
 import ru.iteco.fmhandroid.ui.AppActivity;
-import ru.iteco.fmhandroid.ui.data.FieldIDs;
 import ru.iteco.fmhandroid.ui.page.AuthorizationPage;
+import ru.iteco.fmhandroid.ui.page.ControlPanelPage;
 import ru.iteco.fmhandroid.ui.steps.AuthorizationSteps;
 import ru.iteco.fmhandroid.ui.steps.MainSteps;
 import ru.iteco.fmhandroid.ui.steps.NewsPageSteps;
@@ -31,7 +31,7 @@ public class NewsPageTest {
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(AppActivity.class);
     MainSteps mainSteps = new MainSteps();
-    FieldIDs fieldIDs = new FieldIDs();
+    ControlPanelPage controlPanelPage = new ControlPanelPage();
     AuthorizationSteps authorizationSteps = new AuthorizationSteps();
     AuthorizationPage authorizationPage = new AuthorizationPage();
     NewsPageSteps newsPageSteps = new NewsPageSteps();
@@ -72,7 +72,7 @@ public class NewsPageTest {
         mainSteps.allNewsButtonOnTheAppsHomePage(); //нажала кнопку "Все новости" на главной
         newsPageSteps.vizibilityOfAllNewsBlocksOnTheNewsPage();
         newsPageSteps.vizibilityOfOneNewsBlock();
-        fieldIDs.buttonExpandNews.perform(click());
+        controlPanelPage.buttonExpandNews.perform(click());
         newsPageSteps.vizibilityDescriptionNews();
     }
 }

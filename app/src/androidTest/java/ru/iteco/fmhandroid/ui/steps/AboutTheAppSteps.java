@@ -8,29 +8,29 @@ import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static ru.iteco.fmhandroid.ui.data.DataHelper.waitDisplayed;
 
 import io.qameta.allure.kotlin.Allure;
-import ru.iteco.fmhandroid.ui.data.FieldIDs;
+import ru.iteco.fmhandroid.ui.page.AboutTheAppPage;
 
 public class AboutTheAppSteps {
-    FieldIDs fieldIDs = new FieldIDs();
+    AboutTheAppPage aboutTheAppPage = new AboutTheAppPage();
 
     public void linkPrivacyPolicyOnAboutTheApp() {
         Allure.step("Ссылка на страницу о политике конфиденциальности");
-        fieldIDs.linkPrivacyPolicy.check(matches(isDisplayed())).perform(click());
+        aboutTheAppPage.linkPrivacyPolicy.check(matches(isDisplayed())).perform(click());
     }
 
 
     public void linkUserAgreementOnAboutTheApp() {
         Allure.step("Ссылка на страницу с пользовательским соглашением");
-        fieldIDs.linkUserAgreement.check(matches(isDisplayed())).perform(click());
+        aboutTheAppPage.linkUserAgreement.check(matches(isDisplayed())).perform(click());
     }
 
     public void buttonToReturnPreviousPage() {
         Allure.step("Кнопка возвращения на предыдущую страницу со страницы 'О приложении'");
-        fieldIDs.buttonBackAboutTheApp.check(matches(isDisplayed())).perform(click());
+        aboutTheAppPage.buttonBackAboutTheApp.check(matches(isDisplayed())).perform(click());
     }
 
     public void vizibilityAboutTheAppPage() {
         Allure.step("Видимость страницы 'О приложении'");
-        onView(isRoot()).perform(waitDisplayed(fieldIDs.aboutAppBlock, 5000));
+        onView(isRoot()).perform(waitDisplayed(aboutTheAppPage.aboutAppBlock, 5000));
     }
 }

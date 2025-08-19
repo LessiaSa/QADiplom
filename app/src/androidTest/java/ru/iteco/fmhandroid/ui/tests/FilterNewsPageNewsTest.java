@@ -24,10 +24,9 @@ import io.qameta.allure.kotlin.Allure;
 import io.qameta.allure.kotlin.Epic;
 import ru.iteco.fmhandroid.ui.AppActivity;
 import ru.iteco.fmhandroid.ui.data.DataHelper;
-import ru.iteco.fmhandroid.ui.data.FieldIDs;
 import ru.iteco.fmhandroid.ui.page.AuthorizationPage;
+import ru.iteco.fmhandroid.ui.page.NewsPage;
 import ru.iteco.fmhandroid.ui.steps.AuthorizationSteps;
-import ru.iteco.fmhandroid.ui.steps.ControlPanelSteps;
 import ru.iteco.fmhandroid.ui.steps.FilterNewsSteps;
 import ru.iteco.fmhandroid.ui.steps.MainSteps;
 import ru.iteco.fmhandroid.ui.steps.NewsPageSteps;
@@ -39,13 +38,12 @@ public class FilterNewsPageNewsTest {
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(AppActivity.class);
     MainSteps mainSteps = new MainSteps();
+    NewsPage newsPage = new NewsPage();
     AuthorizationPage authorizationPage = new AuthorizationPage();
     NewsPageSteps newsPageSteps = new NewsPageSteps();
     FilterNewsSteps filterNewsSteps = new FilterNewsSteps();
     AuthorizationSteps authorizationSteps = new AuthorizationSteps();
     DataHelper dataHelper = new DataHelper();
-    FieldIDs fieldIDs = new FieldIDs();
-    ControlPanelSteps controlPanelSteps = new ControlPanelSteps();
     private View decorView;
 
     @Before
@@ -90,7 +88,7 @@ public class FilterNewsPageNewsTest {
         filterNewsSteps.openingTheCategoryField();
         filterNewsSteps.filterButtonForFilteringNews();
         newsPageSteps.vizibilityOfAllNewsBlocksOnTheNewsPage();
-        fieldIDs.newsBlockDop.check(matches(isDisplayed()));
+        newsPage.newsBlockDop.check(matches(isDisplayed()));
     }
 
     @Epic(value = "Тест-кейс №10")
@@ -152,16 +150,14 @@ public class FilterNewsPageNewsTest {
         filterNewsSteps.openingTheCategoryField();
         filterNewsSteps.enterCategoryNewsForNewsPage();
         filterNewsSteps.openingTheCategoryField();
-
         filterNewsSteps.dateDetectionLeftField();
         DataHelper.getDate(-5);
         filterNewsSteps.buttonOkInThePopUpMessageToConfirmTheSelection();
-
         filterNewsSteps.dateDetectionRightField();
         DataHelper.getDate(5);
         filterNewsSteps.buttonOkInThePopUpMessageToConfirmTheSelection();
         filterNewsSteps.filterButtonForFilteringNews();
-        fieldIDs.newsBlockDop.check(matches(isDisplayed()));
+        newsPage.newsBlockDop.check(matches(isDisplayed()));
     }
 
     @Epic(value = "Тест-кейс №15")

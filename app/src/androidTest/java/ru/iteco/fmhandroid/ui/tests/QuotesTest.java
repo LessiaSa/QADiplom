@@ -2,19 +2,12 @@ package ru.iteco.fmhandroid.ui.tests;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.not;
-import static ru.iteco.fmhandroid.ui.data.DataHelper.withIndex;
 
 import android.view.View;
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.filters.LargeTest;
 
-import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -24,11 +17,10 @@ import org.junit.runner.RunWith;
 import io.qameta.allure.android.runners.AllureAndroidJUnit4;
 import io.qameta.allure.kotlin.Allure;
 import io.qameta.allure.kotlin.Epic;
-import ru.iteco.fmhandroid.R;
 import ru.iteco.fmhandroid.ui.AppActivity;
 import ru.iteco.fmhandroid.ui.data.DataHelper;
-import ru.iteco.fmhandroid.ui.data.FieldIDs;
 import ru.iteco.fmhandroid.ui.page.AuthorizationPage;
+import ru.iteco.fmhandroid.ui.page.QuotePage;
 import ru.iteco.fmhandroid.ui.steps.AuthorizationSteps;
 import ru.iteco.fmhandroid.ui.steps.MainSteps;
 import ru.iteco.fmhandroid.ui.steps.PageQuotesSteps;
@@ -40,7 +32,7 @@ public class QuotesTest {
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(AppActivity.class);
     MainSteps mainSteps = new MainSteps();
-    FieldIDs fieldIDs = new FieldIDs();
+    QuotePage quotePage = new QuotePage();
     AuthorizationPage authorizationPage = new AuthorizationPage();
     AuthorizationSteps authorizationSteps = new AuthorizationSteps();
     PageQuotesSteps pageQuotesSteps = new PageQuotesSteps();
@@ -63,7 +55,7 @@ public class QuotesTest {
             mainSteps.loadingTheMainPage();
             mainSteps.buttonQuotesOfTheMainPage();
         }
-        //mActivityScenarioRule.getScenario().onActivity(activity -> decorView = activity.getWindow().getDecorView());
+        mActivityScenarioRule.getScenario().onActivity(activity -> decorView = activity.getWindow().getDecorView());
     }
 
     @After
@@ -81,12 +73,9 @@ public class QuotesTest {
         Allure.step("Возможность развернуть подробное описание цитаты");
         pageQuotesSteps.vizibilityOfTheBlockWithQuotes();
         pageQuotesSteps.vizibilityOneBlockQuote();
-        fieldIDs.buttonUnwrapRollUpQuotes.perform(click());
+        quotePage.buttonUnwrapRollUpQuotes.perform(click());
         pageQuotesSteps.vizibilityDescriptionQuotes();
-        onView(withIndex(withId(R.id.our_mission_item_description_text_view), 0))
-                .check(matches(withText("\"Ну, идеальное устройство мира в моих глазах. Где никто не оценивает," +
-                        " никто не осудит, где говоришь, и тебя слышат, где, если страшно, тебя обнимут и возьмут за руку," +
-                        " а если холодно тебя согреют.” Юля Капис, волонтер")));
+        quotePage.checkingIsDisplayedDescriptionQuite();
     }
 
     @Epic(value = "Тест-кейс №72")
@@ -95,14 +84,9 @@ public class QuotesTest {
         Allure.step("Возможность свернуть описание блока с цитатами");
         pageQuotesSteps.vizibilityOfTheBlockWithQuotes();
         pageQuotesSteps.vizibilityOneBlockQuote();
-        fieldIDs.buttonUnwrapRollUpQuotes.perform(click());
+        quotePage.buttonUnwrapRollUpQuotes.perform(click());
         pageQuotesSteps.vizibilityDescriptionQuotes();
-        onView(dataHelper.withItemText("\"Ну, идеальное устройство мира в моих глазах. Где никто не оценивает, никто не осудит," +
-                " где говоришь, и тебя слышат, где, если страшно, тебя обнимут и возьмут за руку, а если холодно тебя согреют.”" +
-                " Юля Капис, волонтер")).perform(click());
-        onView(Matchers.allOf(withId(R.id.our_mission_item_description_text_view), withText("\"Ну, идеальное устройство мира " +
-                "в моих глазах. Где никто не оценивает, никто не осудит, где говоришь, и тебя слышат, где, если страшно, тебя обнимут" +
-                " и возьмут за руку, а если холодно тебя согреют.” Юля Капис, волонтер"))).check(matches(not(isDisplayed())));
+        onView(dataHelper.withItemText(quotePage.descriptionQuote)).perform(click());
+        quotePage.checkingNotIsDisplayedDescriptionQuote();
     }
-
 }

@@ -2,11 +2,9 @@ package ru.iteco.fmhandroid.ui.tests;
 
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import android.view.View;
 
-import androidx.test.espresso.ViewInteraction;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.filters.LargeTest;
 
@@ -20,8 +18,9 @@ import io.qameta.allure.android.runners.AllureAndroidJUnit4;
 import io.qameta.allure.kotlin.Allure;
 import io.qameta.allure.kotlin.Epic;
 import ru.iteco.fmhandroid.ui.AppActivity;
-import ru.iteco.fmhandroid.ui.data.FieldIDs;
+import ru.iteco.fmhandroid.ui.page.AboutTheAppPage;
 import ru.iteco.fmhandroid.ui.page.AuthorizationPage;
+import ru.iteco.fmhandroid.ui.page.NewsPage;
 import ru.iteco.fmhandroid.ui.steps.AboutTheAppSteps;
 import ru.iteco.fmhandroid.ui.steps.AuthorizationSteps;
 import ru.iteco.fmhandroid.ui.steps.BurgerMenuSteps;
@@ -36,7 +35,8 @@ public class BurgerMenuTest {
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(AppActivity.class);
     MainSteps mainSteps = new MainSteps();
-    FieldIDs fieldIDs = new FieldIDs();
+    NewsPage newsPage = new NewsPage();
+    AboutTheAppPage aboutTheAppPage = new AboutTheAppPage();
     AuthorizationPage authorizationPage = new AuthorizationPage();
     AuthorizationSteps authorizationSteps = new AuthorizationSteps();
     PageQuotesSteps pageQuotesSteps = new PageQuotesSteps();
@@ -78,7 +78,7 @@ public class BurgerMenuTest {
         mainSteps.buttonBurgerMenuOfTheDifferentPages();
         burgerMenuSteps.selectingNewsPageInBurgerMenu();
         newsPageSteps.vizibilityOfAllNewsBlocksOnTheNewsPage();
-        fieldIDs.newsBlockDop.check(matches(isDisplayed()));
+        newsPage.newsBlockDop.check(matches(isDisplayed()));
     }
 
     @Epic(value = "Тест-кейс №76")
@@ -88,7 +88,7 @@ public class BurgerMenuTest {
         mainSteps.buttonBurgerMenuOfTheDifferentPages();
         burgerMenuSteps.selectingAboutAppPageInBurgerMenu();
         aboutTheAppSteps.vizibilityAboutTheAppPage();
-        fieldIDs.titleAboutTheApp.check(matches(isDisplayed()));
+        aboutTheAppPage.titleAboutTheApp.check(matches(isDisplayed()));
     }
 
     @Epic(value = "Тест-кейс №83")
@@ -100,9 +100,7 @@ public class BurgerMenuTest {
         mainSteps.buttonBurgerMenuOfTheDifferentPages();
         burgerMenuSteps.selectingHomePageInBurgerMenu();
         mainSteps.loadingTheMainPage();
-        ViewInteraction textView = fieldIDs.newsButton;
-        textView.check(matches(isDisplayed()));
-        textView.check(matches(withText("ВСЕ НОВОСТИ")));
+        mainSteps.vizibilityHomePage();
     }
 
     @Epic(value = "Тест-кейс №85")
@@ -113,7 +111,7 @@ public class BurgerMenuTest {
         newsPageSteps.vizibilityOfAllNewsBlocksOnTheNewsPage();
         mainSteps.buttonBurgerMenuOfTheDifferentPages();
         burgerMenuSteps.selectingAboutAppPageInBurgerMenu();
-        fieldIDs.titleAboutTheApp.check(matches(isDisplayed()));
+        aboutTheAppPage.titleAboutTheApp.check(matches(isDisplayed()));
     }
 
     @Epic(value = "Тест-кейс №80")
@@ -126,9 +124,7 @@ public class BurgerMenuTest {
         mainSteps.buttonBurgerMenuOfTheDifferentPages();
         burgerMenuSteps.selectingHomePageInBurgerMenu();
         mainSteps.loadingTheMainPage();
-        ViewInteraction textView = fieldIDs.newsButton;
-        textView.check(matches(isDisplayed()));
-        textView.check(matches(withText("ВСЕ НОВОСТИ")));
+        mainSteps.vizibilityHomePage();
     }
 
     @Epic(value = "Тест-кейс №81")
@@ -140,7 +136,7 @@ public class BurgerMenuTest {
         newsPageSteps.clickOnTheControlPanel();
         mainSteps.buttonBurgerMenuOfTheDifferentPages();
         burgerMenuSteps.selectingNewsPageInBurgerMenu();
-        fieldIDs.newsBlockDop.check(matches(isDisplayed()));
+        newsPage.newsBlockDop.check(matches(isDisplayed()));
     }
 
     @Epic(value = "Тест-кейс №82")
@@ -152,7 +148,7 @@ public class BurgerMenuTest {
         newsPageSteps.clickOnTheControlPanel();
         mainSteps.buttonBurgerMenuOfTheDifferentPages();
         burgerMenuSteps.selectingAboutAppPageInBurgerMenu();
-        fieldIDs.titleAboutTheApp.check(matches(isDisplayed()));
+        aboutTheAppPage.titleAboutTheApp.check(matches(isDisplayed()));
     }
 
     @Epic(value = "Тест-кейс №77")
@@ -164,9 +160,7 @@ public class BurgerMenuTest {
         mainSteps.buttonBurgerMenuOfTheDifferentPages();
         burgerMenuSteps.selectingHomePageInBurgerMenu();
         mainSteps.loadingTheMainPage();
-        ViewInteraction textView = fieldIDs.newsButton;
-        textView.check(matches(isDisplayed()));
-        textView.check(matches(withText("ВСЕ НОВОСТИ")));
+        mainSteps.vizibilityHomePage();
     }
 
     @Epic(value = "Тест-кейс №78")
@@ -177,7 +171,7 @@ public class BurgerMenuTest {
         pageQuotesSteps.vizibilityOfTheBlockWithQuotes();
         mainSteps.buttonBurgerMenuOfTheDifferentPages();
         burgerMenuSteps.selectingNewsPageInBurgerMenu();
-        fieldIDs.newsBlockDop.check(matches(isDisplayed()));
+        newsPage.newsBlockDop.check(matches(isDisplayed()));
     }
 
     @Epic(value = "Тест-кейс №79")
@@ -188,7 +182,7 @@ public class BurgerMenuTest {
         pageQuotesSteps.vizibilityOfTheBlockWithQuotes();
         mainSteps.buttonBurgerMenuOfTheDifferentPages();
         burgerMenuSteps.selectingAboutAppPageInBurgerMenu();
-        fieldIDs.titleAboutTheApp.check(matches(isDisplayed()));
+        aboutTheAppPage.titleAboutTheApp.check(matches(isDisplayed()));
     }
 
 }
