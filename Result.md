@@ -16,11 +16,12 @@
 были проведены все те же тесты, что и на эмуляторе и выявлены те же ошибки.
 
 ### В результате проведенных
-- автотестов: было выявлено 12 ошибок, по результатам которых составлены баг-репорты,
+- автотестов: было выявлено 11 ошибок, по результатам которых составлены баг-репорты,
 
-[Отчет Allure](https://1drv.ms/i/c/75373330f0fb18fa/EXvRS7kWi6JLlUWd138QqtcBQdwXH5EhNL23NzSAPSqa-g?e=09WtTV)
+[Отчет Allure](https://1drv.ms/i/c/75373330f0fb18fa/Ea_dbXAJr0JBsFOJNtEen18BwvQ-jIitjFEGJebev8gVAw?e=iT6jxn)
 
-<img width="1878" height="954" alt="AllureResultГлавная" src="https://github.com/user-attachments/assets/7a059ca5-0647-4605-9172-9b6e5a447eac" />
+<img width="1247" height="870" alt="image" src="https://github.com/user-attachments/assets/64d10b00-4a5b-4847-b80f-4b57751d7858" />
+
 
 
   
