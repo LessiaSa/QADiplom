@@ -11,8 +11,8 @@
 
 
 ## Отчеты:
-
-- [Аллюр-отчет](http://localhost:63342/FMHAndroid/allure-report/index.html?_ijt=qnds5o72iga360dsbc6diocomu&_ij_reload=RELOAD_ON_SAVE)
+  
+ - [Allure-zip](https://cloud.mail.ru/public/eYDZ/oStfwoUpk)
 
 - [Profiler-отчет](https://github.com/LessiaSa/QADiplom/tree/main/ProfilerResults)
 
@@ -74,5 +74,7 @@
 <br>
 
 > P.S. Не забудьте удалить лишние файлы, которые были добавлены в проект при сохранении allure-result в корневую директорию проекта 😉.
+
+
 
 
