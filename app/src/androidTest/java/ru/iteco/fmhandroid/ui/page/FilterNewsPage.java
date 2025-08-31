@@ -1,13 +1,18 @@
 package ru.iteco.fmhandroid.ui.page;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-
 import static org.hamcrest.Matchers.allOf;
 
+import androidx.test.espresso.Espresso;
 import androidx.test.espresso.ViewInteraction;
+import androidx.test.espresso.matcher.RootMatchers;
 
+import org.hamcrest.Matchers;
+
+import io.qameta.allure.kotlin.Allure;
 import ru.iteco.fmhandroid.R;
 
 public class FilterNewsPage {
@@ -23,4 +28,10 @@ public class FilterNewsPage {
     //кнопка "Ок" при выставлении даты
     public static ViewInteraction buttonOkDate = onView(allOf(withId(android.R.id.button1), withText("ОК")));
     public static ViewInteraction buttonOkDeleteNews = onView(withId(android.R.id.button1));
+
+    public void selectingCategoryFromTheDropDownList() {
+        Allure.step("Выбор категории из выпадающего списка");
+        Espresso.onData(Matchers.anything())
+                .inRoot(RootMatchers.isPlatformPopup()).atPosition(1).perform(click());
+    }
 }

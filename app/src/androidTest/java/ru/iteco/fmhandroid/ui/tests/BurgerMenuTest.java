@@ -20,13 +20,13 @@ import io.qameta.allure.kotlin.Epic;
 import ru.iteco.fmhandroid.ui.AppActivity;
 import ru.iteco.fmhandroid.ui.page.AboutTheAppPage;
 import ru.iteco.fmhandroid.ui.page.AuthorizationPage;
+import ru.iteco.fmhandroid.ui.page.BurgerMenuPage;
+import ru.iteco.fmhandroid.ui.page.MainPage;
 import ru.iteco.fmhandroid.ui.page.NewsPage;
-import ru.iteco.fmhandroid.ui.steps.AboutTheAppSteps;
+import ru.iteco.fmhandroid.ui.page.QuotePage;
 import ru.iteco.fmhandroid.ui.steps.AuthorizationSteps;
-import ru.iteco.fmhandroid.ui.steps.BurgerMenuSteps;
 import ru.iteco.fmhandroid.ui.steps.MainSteps;
 import ru.iteco.fmhandroid.ui.steps.NewsPageSteps;
-import ru.iteco.fmhandroid.ui.steps.PageQuotesSteps;
 
 @LargeTest
 @RunWith(AllureAndroidJUnit4.class)
@@ -39,25 +39,25 @@ public class BurgerMenuTest {
     AboutTheAppPage aboutTheAppPage = new AboutTheAppPage();
     AuthorizationPage authorizationPage = new AuthorizationPage();
     AuthorizationSteps authorizationSteps = new AuthorizationSteps();
-    PageQuotesSteps pageQuotesSteps = new PageQuotesSteps();
     NewsPageSteps newsPageSteps = new NewsPageSteps();
-    BurgerMenuSteps burgerMenuSteps = new BurgerMenuSteps();
-    AboutTheAppSteps aboutTheAppSteps = new AboutTheAppSteps();
+    BurgerMenuPage burgerMenuPage = new BurgerMenuPage();
+    MainPage mainPage = new MainPage();
+    QuotePage quotePage = new QuotePage();
     private View decorView;
 
     @Before
     public void setUp() {
         try {
-            authorizationSteps.applicationHomeScreen();
+            authorizationPage.applicationHomeScreen();
             authorizationPage.titleAuthorizationText();
             authorizationSteps.authorizWithValidData();
-            mainSteps.loadingTheMainPage();
+            mainPage.loadingTheMainPage();
         } catch (Exception e) {
-            mainSteps.buttonLogOutProfile();
+            mainPage.buttonLogOutProfile();
             mainSteps.logOutPopUpOfTheProfile();
             authorizationPage.titleAuthorizationText();
             authorizationSteps.authorizWithValidData();
-            mainSteps.loadingTheMainPage();
+            mainPage.loadingTheMainPage();
         }
         mActivityScenarioRule.getScenario().onActivity(activity -> decorView = activity.getWindow().getDecorView());
     }
@@ -65,7 +65,7 @@ public class BurgerMenuTest {
     @After
     public void tearDown() {
         try {
-            mainSteps.buttonLogOutProfile();
+            mainPage.buttonLogOutProfile();
             mainSteps.logOutPopUpOfTheProfile();
         } catch (Exception ignored) {
         }
@@ -76,8 +76,8 @@ public class BurgerMenuTest {
     public void goToNewsFromTheMainPage() {
         Allure.step("Переход на страницу 'Новости' с главной");
         mainSteps.buttonBurgerMenuOfTheDifferentPages();
-        burgerMenuSteps.selectingNewsPageInBurgerMenu();
-        newsPageSteps.vizibilityOfAllNewsBlocksOnTheNewsPage();
+        burgerMenuPage.selectingNewsPageInBurgerMenu();
+        newsPage.vizibilityOfAllNewsBlocksOnTheNewsPage();
         newsPage.newsBlockDop.check(matches(isDisplayed()));
     }
 
@@ -86,8 +86,8 @@ public class BurgerMenuTest {
     public void goToAboutAppPageFromTheMainPage() {
         Allure.step("Переход на страницу 'О приложении' с главной");
         mainSteps.buttonBurgerMenuOfTheDifferentPages();
-        burgerMenuSteps.selectingAboutAppPageInBurgerMenu();
-        aboutTheAppSteps.vizibilityAboutTheAppPage();
+        burgerMenuPage.selectingAboutAppPageInBurgerMenu();
+        aboutTheAppPage.vizibilityAboutTheAppPage();
         aboutTheAppPage.titleAboutTheApp.check(matches(isDisplayed()));
     }
 
@@ -96,10 +96,10 @@ public class BurgerMenuTest {
     public void goToMainPageFromTheNewsPage() {
         Allure.step("Переход на главную страницу со страницы 'Новости'");
         mainSteps.allNewsButtonOnTheAppsHomePage(); //нажала кнопку "Все новости" на главной
-        newsPageSteps.vizibilityOfAllNewsBlocksOnTheNewsPage();
+        newsPage.vizibilityOfAllNewsBlocksOnTheNewsPage();
         mainSteps.buttonBurgerMenuOfTheDifferentPages();
-        burgerMenuSteps.selectingHomePageInBurgerMenu();
-        mainSteps.loadingTheMainPage();
+        burgerMenuPage.selectingHomePageInBurgerMenu();
+        mainPage.loadingTheMainPage();
         mainSteps.vizibilityHomePage();
     }
 
@@ -108,9 +108,9 @@ public class BurgerMenuTest {
     public void goToAboutAppPageFromTheNewsPage() {
         Allure.step("Переход на страницу 'О приложении' со страницы 'Новости'.ТЕСТ УПАДЕТ");
         mainSteps.allNewsButtonOnTheAppsHomePage(); //нажала кнопку "Все новости" на главной
-        newsPageSteps.vizibilityOfAllNewsBlocksOnTheNewsPage();
+        newsPage.vizibilityOfAllNewsBlocksOnTheNewsPage();
         mainSteps.buttonBurgerMenuOfTheDifferentPages();
-        burgerMenuSteps.selectingAboutAppPageInBurgerMenu();
+        burgerMenuPage.selectingAboutAppPageInBurgerMenu();
         aboutTheAppPage.titleAboutTheApp.check(matches(isDisplayed()));
     }
 
@@ -119,11 +119,11 @@ public class BurgerMenuTest {
     public void navigatingToTheMainPageFromTheControlPanelPage() {
         Allure.step("Переход на главную страницу со страницы 'Панель управления'");
         mainSteps.allNewsButtonOnTheAppsHomePage(); //нажала кнопку "Все новости" на главной
-        newsPageSteps.vizibilityControlPanelButton();
+        newsPage.vizibilityControlPanelButton();
         newsPageSteps.clickOnTheControlPanel();
         mainSteps.buttonBurgerMenuOfTheDifferentPages();
-        burgerMenuSteps.selectingHomePageInBurgerMenu();
-        mainSteps.loadingTheMainPage();
+        burgerMenuPage.selectingHomePageInBurgerMenu();
+        mainPage.loadingTheMainPage();
         mainSteps.vizibilityHomePage();
     }
 
@@ -132,10 +132,10 @@ public class BurgerMenuTest {
     public void navigatingToTheNewsPageFromTheControlPanelPage() {
         Allure.step("Переход на страницу 'Новости' со страницы 'Панель управления'");
         mainSteps.allNewsButtonOnTheAppsHomePage(); //нажала кнопку "Все новости" на главной
-        newsPageSteps.vizibilityControlPanelButton();
+        newsPage.vizibilityControlPanelButton();
         newsPageSteps.clickOnTheControlPanel();
         mainSteps.buttonBurgerMenuOfTheDifferentPages();
-        burgerMenuSteps.selectingNewsPageInBurgerMenu();
+        burgerMenuPage.selectingNewsPageInBurgerMenu();
         newsPage.newsBlockDop.check(matches(isDisplayed()));
     }
 
@@ -144,10 +144,10 @@ public class BurgerMenuTest {
     public void navigatingToTheAboutAppPageFronTheControlPanelPage() {
         Allure.step("Переход на страницу 'О приложении' со страницы 'Панель управления'");
         mainSteps.allNewsButtonOnTheAppsHomePage(); //нажала кнопку "Все новости" на главной
-        newsPageSteps.vizibilityControlPanelButton();
+        newsPage.vizibilityControlPanelButton();
         newsPageSteps.clickOnTheControlPanel();
         mainSteps.buttonBurgerMenuOfTheDifferentPages();
-        burgerMenuSteps.selectingAboutAppPageInBurgerMenu();
+        burgerMenuPage.selectingAboutAppPageInBurgerMenu();
         aboutTheAppPage.titleAboutTheApp.check(matches(isDisplayed()));
     }
 
@@ -156,10 +156,10 @@ public class BurgerMenuTest {
     public void navigatingToTheMainPageFromTheQuotePage() {
         Allure.step("Переход на главную со страницы с цитатами");
         mainSteps.buttonQuotesOfTheMainPage();
-        pageQuotesSteps.vizibilityOfTheBlockWithQuotes();
+        quotePage.vizibilityOfTheBlockWithQuotes();
         mainSteps.buttonBurgerMenuOfTheDifferentPages();
-        burgerMenuSteps.selectingHomePageInBurgerMenu();
-        mainSteps.loadingTheMainPage();
+        burgerMenuPage.selectingHomePageInBurgerMenu();
+        mainPage.loadingTheMainPage();
         mainSteps.vizibilityHomePage();
     }
 
@@ -168,9 +168,9 @@ public class BurgerMenuTest {
     public void navigatingToTheNewsPageFromTheQuotePage() {
         Allure.step("Переход на страницу 'Новости' со страницы с цитатами");
         mainSteps.buttonQuotesOfTheMainPage();
-        pageQuotesSteps.vizibilityOfTheBlockWithQuotes();
+        quotePage.vizibilityOfTheBlockWithQuotes();
         mainSteps.buttonBurgerMenuOfTheDifferentPages();
-        burgerMenuSteps.selectingNewsPageInBurgerMenu();
+        burgerMenuPage.selectingNewsPageInBurgerMenu();
         newsPage.newsBlockDop.check(matches(isDisplayed()));
     }
 
@@ -179,9 +179,9 @@ public class BurgerMenuTest {
     public void navigatingToTheAboutAppPageFromTheQuotePage() {
         Allure.step("Переход на страницу 'О приложении' со страницы с цитатами");
         mainSteps.buttonQuotesOfTheMainPage();
-        pageQuotesSteps.vizibilityOfTheBlockWithQuotes();
+        quotePage.vizibilityOfTheBlockWithQuotes();
         mainSteps.buttonBurgerMenuOfTheDifferentPages();
-        burgerMenuSteps.selectingAboutAppPageInBurgerMenu();
+        burgerMenuPage.selectingAboutAppPageInBurgerMenu();
         aboutTheAppPage.titleAboutTheApp.check(matches(isDisplayed()));
     }
 

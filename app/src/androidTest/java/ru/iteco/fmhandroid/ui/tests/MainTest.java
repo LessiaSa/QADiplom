@@ -24,6 +24,7 @@ import io.qameta.allure.kotlin.Allure;
 import io.qameta.allure.kotlin.Epic;
 import ru.iteco.fmhandroid.ui.AppActivity;
 import ru.iteco.fmhandroid.ui.page.AuthorizationPage;
+import ru.iteco.fmhandroid.ui.page.MainPage;
 import ru.iteco.fmhandroid.ui.page.NewsPage;
 import ru.iteco.fmhandroid.ui.steps.AuthorizationSteps;
 import ru.iteco.fmhandroid.ui.steps.MainSteps;
@@ -38,21 +39,22 @@ public class MainTest {
     NewsPage newsPage = new NewsPage();
     AuthorizationPage authorizationPage = new AuthorizationPage();
     AuthorizationSteps authorizationSteps = new AuthorizationSteps();
+    MainPage mainPage = new MainPage();
     private View decorView;
 
     @Before
     public void setUp() {
         try {
-            authorizationSteps.applicationHomeScreen();
+            authorizationPage.applicationHomeScreen();
             authorizationPage.titleAuthorizationText();
             authorizationSteps.authorizWithValidData();
-            mainSteps.loadingTheMainPage();
+            mainPage.loadingTheMainPage();
         } catch (Exception e) {
-            mainSteps.buttonLogOutProfile();
+            mainPage.buttonLogOutProfile();
             mainSteps.logOutPopUpOfTheProfile();
             authorizationPage.titleAuthorizationText();
             authorizationSteps.authorizWithValidData();
-            mainSteps.loadingTheMainPage();
+            mainPage.loadingTheMainPage();
         }
         mActivityScenarioRule.getScenario().onActivity(activity -> decorView = activity.getWindow().getDecorView());
     }
@@ -60,7 +62,7 @@ public class MainTest {
     @After
     public void tearDown() {
         try {
-            mainSteps.buttonLogOutProfile();
+            mainPage.buttonLogOutProfile();
             mainSteps.logOutPopUpOfTheProfile();
         } catch (Exception ignored) {
 
@@ -87,7 +89,7 @@ public class MainTest {
         newsPage.buttonCollapse.perform(click());
         ViewInteraction textView = newsPage.newsButton;
         textView.check(matches(isDisplayed()));
-        textView.check(matches(withText("ВСЕ НОВОСТИ")));
+        textView.check(matches(withText(mainPage.allNews)));
     }
 
 }

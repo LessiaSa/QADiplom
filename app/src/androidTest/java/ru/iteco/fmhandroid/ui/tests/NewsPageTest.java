@@ -20,9 +20,10 @@ import io.qameta.allure.kotlin.Epic;
 import ru.iteco.fmhandroid.ui.AppActivity;
 import ru.iteco.fmhandroid.ui.page.AuthorizationPage;
 import ru.iteco.fmhandroid.ui.page.ControlPanelPage;
+import ru.iteco.fmhandroid.ui.page.MainPage;
+import ru.iteco.fmhandroid.ui.page.NewsPage;
 import ru.iteco.fmhandroid.ui.steps.AuthorizationSteps;
 import ru.iteco.fmhandroid.ui.steps.MainSteps;
-import ru.iteco.fmhandroid.ui.steps.NewsPageSteps;
 
 @LargeTest
 @RunWith(AllureAndroidJUnit4.class)
@@ -34,23 +35,24 @@ public class NewsPageTest {
     ControlPanelPage controlPanelPage = new ControlPanelPage();
     AuthorizationSteps authorizationSteps = new AuthorizationSteps();
     AuthorizationPage authorizationPage = new AuthorizationPage();
-    NewsPageSteps newsPageSteps = new NewsPageSteps();
+    MainPage mainPage = new MainPage();
+    NewsPage newsPage = new NewsPage();
     private View decorView;
 
 
     @Before
     public void setUp() {
         try {
-            authorizationSteps.applicationHomeScreen();
+            authorizationPage.applicationHomeScreen();
             authorizationPage.titleAuthorizationText();
             authorizationSteps.authorizWithValidData();
-            mainSteps.loadingTheMainPage();
+            mainPage.loadingTheMainPage();
         } catch (Exception e) {
-            mainSteps.buttonLogOutProfile();
+            mainPage.buttonLogOutProfile();
             mainSteps.logOutPopUpOfTheProfile();
             authorizationPage.titleAuthorizationText();
             authorizationSteps.authorizWithValidData();
-            mainSteps.loadingTheMainPage();
+            mainPage.loadingTheMainPage();
         }
         mActivityScenarioRule.getScenario().onActivity(activity -> decorView = activity.getWindow().getDecorView());
     }
@@ -58,7 +60,7 @@ public class NewsPageTest {
     @After
     public void tearDown() {
         try {
-            mainSteps.buttonLogOutProfile();
+            mainPage.buttonLogOutProfile();
             mainSteps.logOutPopUpOfTheProfile();
         } catch (Exception ignored) {
 
@@ -70,9 +72,9 @@ public class NewsPageTest {
     public void blockNewsExpandButton() {
         Allure.step("Кнопка 'Развернуть' для разворачивания блока новости");
         mainSteps.allNewsButtonOnTheAppsHomePage(); //нажала кнопку "Все новости" на главной
-        newsPageSteps.vizibilityOfAllNewsBlocksOnTheNewsPage();
-        newsPageSteps.vizibilityOfOneNewsBlock();
+        newsPage.vizibilityOfAllNewsBlocksOnTheNewsPage();
+        newsPage.vizibilityOfOneNewsBlock();
         controlPanelPage.buttonExpandNews.perform(click());
-        newsPageSteps.vizibilityDescriptionNews();
+        newsPage.vizibilityDescriptionNews();
     }
 }

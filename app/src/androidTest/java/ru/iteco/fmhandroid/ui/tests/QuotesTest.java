@@ -20,10 +20,10 @@ import io.qameta.allure.kotlin.Epic;
 import ru.iteco.fmhandroid.ui.AppActivity;
 import ru.iteco.fmhandroid.ui.data.DataHelper;
 import ru.iteco.fmhandroid.ui.page.AuthorizationPage;
+import ru.iteco.fmhandroid.ui.page.MainPage;
 import ru.iteco.fmhandroid.ui.page.QuotePage;
 import ru.iteco.fmhandroid.ui.steps.AuthorizationSteps;
 import ru.iteco.fmhandroid.ui.steps.MainSteps;
-import ru.iteco.fmhandroid.ui.steps.PageQuotesSteps;
 
 @LargeTest
 @RunWith(AllureAndroidJUnit4.class)
@@ -35,24 +35,24 @@ public class QuotesTest {
     QuotePage quotePage = new QuotePage();
     AuthorizationPage authorizationPage = new AuthorizationPage();
     AuthorizationSteps authorizationSteps = new AuthorizationSteps();
-    PageQuotesSteps pageQuotesSteps = new PageQuotesSteps();
     DataHelper dataHelper = new DataHelper();
+    MainPage mainPage = new MainPage();
     private View decorView;
 
     @Before
     public void setUp() {
         try {
-            authorizationSteps.applicationHomeScreen();
+            authorizationPage.applicationHomeScreen();
             authorizationPage.titleAuthorizationText();
             authorizationSteps.authorizWithValidData();
-            mainSteps.loadingTheMainPage();
+            mainPage.loadingTheMainPage();
             mainSteps.buttonQuotesOfTheMainPage();
         } catch (Exception e) {
-            mainSteps.buttonLogOutProfile();
+            mainPage.buttonLogOutProfile();
             mainSteps.logOutPopUpOfTheProfile();
             authorizationPage.titleAuthorizationText();
             authorizationSteps.authorizWithValidData();
-            mainSteps.loadingTheMainPage();
+            mainPage.loadingTheMainPage();
             mainSteps.buttonQuotesOfTheMainPage();
         }
         mActivityScenarioRule.getScenario().onActivity(activity -> decorView = activity.getWindow().getDecorView());
@@ -61,7 +61,7 @@ public class QuotesTest {
     @After
     public void tearDown() {
         try {
-            mainSteps.buttonLogOutProfile();
+            mainPage.buttonLogOutProfile();
             mainSteps.logOutPopUpOfTheProfile();
         } catch (Exception ignored) {
         }
@@ -71,10 +71,10 @@ public class QuotesTest {
     @Test
     public void abilityExpandDetailedDescriptionQuote() {
         Allure.step("Возможность развернуть подробное описание цитаты");
-        pageQuotesSteps.vizibilityOfTheBlockWithQuotes();
-        pageQuotesSteps.vizibilityOneBlockQuote();
+        quotePage.vizibilityOfTheBlockWithQuotes();
+        quotePage.vizibilityOneBlockQuote();
         quotePage.buttonUnwrapRollUpQuotes.perform(click());
-        pageQuotesSteps.vizibilityDescriptionQuotes();
+        quotePage.vizibilityDescriptionQuotes();
         quotePage.checkingIsDisplayedDescriptionQuite();
     }
 
@@ -82,10 +82,10 @@ public class QuotesTest {
     @Test
     public void abilityToCollapseBlockWithQuotes() {
         Allure.step("Возможность свернуть описание блока с цитатами");
-        pageQuotesSteps.vizibilityOfTheBlockWithQuotes();
-        pageQuotesSteps.vizibilityOneBlockQuote();
+        quotePage.vizibilityOfTheBlockWithQuotes();
+        quotePage.vizibilityOneBlockQuote();
         quotePage.buttonUnwrapRollUpQuotes.perform(click());
-        pageQuotesSteps.vizibilityDescriptionQuotes();
+        quotePage.vizibilityDescriptionQuotes();
         onView(dataHelper.withItemText(quotePage.descriptionQuote)).perform(click());
         quotePage.checkingNotIsDisplayedDescriptionQuote();
     }

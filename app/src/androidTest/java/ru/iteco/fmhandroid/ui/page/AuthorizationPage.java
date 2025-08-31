@@ -3,6 +3,9 @@ package ru.iteco.fmhandroid.ui.page;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.replaceText;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withHint;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -11,10 +14,16 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static ru.iteco.fmhandroid.ui.data.DataHelper.waitDisplayed;
 
+import android.view.View;
+
 import androidx.test.espresso.ViewInteraction;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+
+import org.hamcrest.Matchers;
 
 import io.qameta.allure.kotlin.Allure;
 import ru.iteco.fmhandroid.R;
+import ru.iteco.fmhandroid.ui.AppActivity;
 
 public class AuthorizationPage {
     public static int authorizationButtonEnter = R.id.enter_button;
@@ -58,5 +67,32 @@ public class AuthorizationPage {
     public void titleAuthorizationText() {
         Allure.step("Отображается страница авторизации");
         onView(isRoot()).perform(waitDisplayed(authorizationButtonEnter, 5000));
+    }
+
+    public static void applicationHomeScreen() {
+        Allure.step("Начальный экран приложения");
+        onView(isRoot()).perform(waitDisplayed(ru.iteco.fmhandroid.R.id.splashscreen_image_view, 5000));
+    }
+
+    public void vizibilityLoginFieldsForPage() {
+        Allure.step("Видимость поля 'Логин'");
+        onView(isRoot()).perform(waitDisplayed(getLoginLayout(), 5000));
+    }
+
+    public void vizibilityPasswordFieldForPage() {
+        Allure.step("Видимость поля 'Пароль'");
+        onView(isRoot()).perform(waitDisplayed(getPasswordLayout(), 5000));
+    }
+
+    public void checkingThePopUpMessageForAuthorization() {
+        ActivityScenarioRule<AppActivity> mActivityScenarioRule =
+                new ActivityScenarioRule<>(AppActivity.class);
+        var ref = new Object() {
+            View decorView;
+        };
+        mActivityScenarioRule.getScenario().onActivity(activity -> ref.decorView = activity.getWindow().getDecorView());
+        onView(withText("Неверные данные"))
+                .inRoot(withDecorView(Matchers.not(ref.decorView)))
+                .check(matches(isDisplayed()));
     }
 }

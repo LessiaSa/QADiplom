@@ -15,11 +15,12 @@ import io.qameta.allure.android.runners.AllureAndroidJUnit4;
 import io.qameta.allure.kotlin.Allure;
 import io.qameta.allure.kotlin.Epic;
 import ru.iteco.fmhandroid.ui.AppActivity;
+import ru.iteco.fmhandroid.ui.page.AboutTheAppPage;
 import ru.iteco.fmhandroid.ui.page.AuthorizationPage;
-import ru.iteco.fmhandroid.ui.page.NewsPage;
+import ru.iteco.fmhandroid.ui.page.BurgerMenuPage;
+import ru.iteco.fmhandroid.ui.page.MainPage;
 import ru.iteco.fmhandroid.ui.steps.AboutTheAppSteps;
 import ru.iteco.fmhandroid.ui.steps.AuthorizationSteps;
-import ru.iteco.fmhandroid.ui.steps.BurgerMenuSteps;
 import ru.iteco.fmhandroid.ui.steps.MainSteps;
 
 @LargeTest
@@ -29,33 +30,34 @@ public class AboutTheAppTest {
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(AppActivity.class);
     MainSteps mainSteps = new MainSteps();
-    NewsPage newsPage = new NewsPage();
     AuthorizationPage authorizationPage = new AuthorizationPage();
     AuthorizationSteps authorizationSteps = new AuthorizationSteps();
-    BurgerMenuSteps burgerMenuSteps = new BurgerMenuSteps();
     AboutTheAppSteps aboutTheAppSteps = new AboutTheAppSteps();
+    AboutTheAppPage aboutTheAppPage = new AboutTheAppPage();
+    BurgerMenuPage burgerMenuPage = new BurgerMenuPage();
+    MainPage mainPage = new MainPage();
     private View decorView;
 
 
     @Before
     public void setUp() {
         try {
-            authorizationSteps.applicationHomeScreen();
+            authorizationPage.applicationHomeScreen();
             authorizationPage.titleAuthorizationText();
             authorizationSteps.authorizWithValidData();
-            mainSteps.loadingTheMainPage();
+            mainPage.loadingTheMainPage();
             mainSteps.buttonBurgerMenuOfTheDifferentPages();
-            burgerMenuSteps.selectingAboutAppPageInBurgerMenu();
-            aboutTheAppSteps.vizibilityAboutTheAppPage();
+            burgerMenuPage.selectingAboutAppPageInBurgerMenu();
+            aboutTheAppPage.vizibilityAboutTheAppPage();
         } catch (Exception e) {
-            mainSteps.buttonLogOutProfile();
+            mainPage.buttonLogOutProfile();
             mainSteps.logOutPopUpOfTheProfile();
             authorizationPage.titleAuthorizationText();
             authorizationSteps.authorizWithValidData();
-            mainSteps.loadingTheMainPage();
+            mainPage.loadingTheMainPage();
             mainSteps.buttonBurgerMenuOfTheDifferentPages();
-            burgerMenuSteps.selectingAboutAppPageInBurgerMenu();
-            aboutTheAppSteps.vizibilityAboutTheAppPage();
+            burgerMenuPage.selectingAboutAppPageInBurgerMenu();
+            aboutTheAppPage.vizibilityAboutTheAppPage();
         }
         mActivityScenarioRule.getScenario().onActivity(activity -> decorView = activity.getWindow().getDecorView());
     }
@@ -63,42 +65,19 @@ public class AboutTheAppTest {
     @After
     public void tearDown() {
         try {
-            mainSteps.buttonLogOutProfile();
+            mainPage.buttonLogOutProfile();
             mainSteps.logOutPopUpOfTheProfile();
         } catch (Exception ignored) {
 
         }
     }
 
-    //    //https://vhospice.org/#/privacy-policy/
-//    @Test
-//    public void gettingInformationAboutThePrivacyPolicy() {
-//        Allure.step("Получение информации о политике конфиденциальности");
-//        aboutTheAppSteps.linkPrivacyPolicyOnAboutTheApp();
-//        try {
-//            onWebView().withElement(findElement(Locator.ID, "vhospice"))
-//                    .check(webMatches(getText(), containsString("Политика конфиденциальности")));
-//        } catch (RuntimeException notExist) {
-//            //good!
-//        }
-//    }
-//    @Test
-//    public void gettingInformationAboutTheUserAgreement() {
-//        Allure.step("Получение информации о пользовательском сошлашении");
-//        aboutTheAppSteps.linkUserAgreementOnAboutTheApp();
-//        try {
-//            onWebView().withElement(findElement(Locator.ID, "vhospice"))
-//                    .check(webMatches(getText(), containsString("Пользовательское соглашение")));
-//        } catch (RuntimeException notExist) {
-//            //good!
-//        }
-//    }
     @Epic(value = "Тест-кейс №88")
     @Test
     public void returnPreviousPageUsingTheBackButton() {
         Allure.step("Возвращение на предыдущую страницу по кнопке 'Назад'");
         aboutTheAppSteps.buttonToReturnPreviousPage();
-        mainSteps.loadingTheMainPage();
+        mainPage.loadingTheMainPage();
         mainSteps.vizibilityHomePage();
     }
 

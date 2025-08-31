@@ -80,7 +80,7 @@ public class DataHelper {
         LocalDate date = null;
         if (days >= 0) {
             date = LocalDate.now().plusDays(+days); // Будущая дата
-        } else if (days < 0) {
+        } else {
             date = LocalDate.now().minusDays(-days); // Прошлая дата
         }
         return date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));

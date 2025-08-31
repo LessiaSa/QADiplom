@@ -5,11 +5,6 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 
-import androidx.test.espresso.Espresso;
-import androidx.test.espresso.matcher.RootMatchers;
-
-import org.hamcrest.Matchers;
-
 import io.qameta.allure.kotlin.Allure;
 import ru.iteco.fmhandroid.ui.data.DataHelper;
 import ru.iteco.fmhandroid.ui.page.FilterNewsPage;
@@ -26,12 +21,6 @@ public class FilterNewsSteps {
     public void enterCategoryNewsForNewsPage() {
         Allure.step("Выбор случайной категории новости");
         dataHelper.randomCategory();
-    }
-
-    public void selectingCategoryFromTheDropDownList() {
-        Allure.step("Выбор категории из выпадающего списка");
-        Espresso.onData(Matchers.anything())
-                .inRoot(RootMatchers.isPlatformPopup()).atPosition(1).perform(click());
     }
 
     public void dateDetectionLeftField() {

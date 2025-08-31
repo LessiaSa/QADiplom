@@ -2,13 +2,9 @@ package ru.iteco.fmhandroid.ui.tests;
 
 
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import android.view.View;
 
-import androidx.test.espresso.ViewInteraction;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.filters.LargeTest;
 
@@ -27,6 +23,9 @@ import ru.iteco.fmhandroid.ui.page.AuthorizationPage;
 import ru.iteco.fmhandroid.ui.page.CheckingPage;
 import ru.iteco.fmhandroid.ui.page.ControlPanelPage;
 import ru.iteco.fmhandroid.ui.page.CreateNewsPage;
+import ru.iteco.fmhandroid.ui.page.FilterNewsPage;
+import ru.iteco.fmhandroid.ui.page.MainPage;
+import ru.iteco.fmhandroid.ui.page.NewsPage;
 import ru.iteco.fmhandroid.ui.steps.AuthorizationSteps;
 import ru.iteco.fmhandroid.ui.steps.ControlPanelSteps;
 import ru.iteco.fmhandroid.ui.steps.CreateEndDeleneNewsSteps;
@@ -53,30 +52,33 @@ public class CreateNewsTest {
     DataHelper dataHelper = new DataHelper();
     CreateEndDeleneNewsSteps createEndDeleneNewsSteps = new CreateEndDeleneNewsSteps();
     CheckingPage checkingPage = new CheckingPage();
+    FilterNewsPage filterNewsPage = new FilterNewsPage();
+    MainPage mainPage = new MainPage();
+    NewsPage newsPage = new NewsPage();
 
     private View decorView;
 
     @Before
     public void setUp() {
         try {
-            authorizationSteps.applicationHomeScreen();
+            authorizationPage.applicationHomeScreen();
             authorizationPage.titleAuthorizationText();
             authorizationSteps.authorizWithValidData();
-            mainSteps.loadingTheMainPage();
+            mainPage.loadingTheMainPage();
             mainSteps.allNewsButtonOnTheAppsHomePage(); //нажала кнопку "Все новости" на главной
-            newsPageSteps.vizibilityControlPanelButton();
+            newsPage.vizibilityControlPanelButton();
             newsPageSteps.clickOnTheControlPanel();
-            controlPanelSteps.createNewsItemButton();
+            createNewsPage.clickButtonCreateNews();
         } catch (Exception e) {
-            mainSteps.buttonLogOutProfile();
+            mainPage.buttonLogOutProfile();
             mainSteps.logOutPopUpOfTheProfile();
             authorizationPage.titleAuthorizationText();
             authorizationSteps.authorizWithValidData();
-            mainSteps.loadingTheMainPage();
+            mainPage.loadingTheMainPage();
             mainSteps.allNewsButtonOnTheAppsHomePage(); //нажала кнопку "Все новости" на главной
-            newsPageSteps.vizibilityControlPanelButton();
+            newsPage.vizibilityControlPanelButton();
             newsPageSteps.clickOnTheControlPanel();
-            controlPanelSteps.createNewsItemButton();
+            createNewsPage.clickButtonCreateNews();
         }
         mActivityScenarioRule.getScenario().onActivity(activity -> decorView = activity.getWindow().getDecorView());
     }
@@ -84,7 +86,7 @@ public class CreateNewsTest {
     @After
     public void tearDown() {
         try {
-            mainSteps.buttonLogOutProfile();
+            mainPage.buttonLogOutProfile();
             mainSteps.logOutPopUpOfTheProfile();
         } catch (Exception ignored) {
 
@@ -96,7 +98,7 @@ public class CreateNewsTest {
     public void newsCreation() {
         Allure.step("Создание новости");
         filterNewsSteps.openingTheCategoryField();
-        filterNewsSteps.selectingCategoryFromTheDropDownList();
+        filterNewsPage.selectingCategoryFromTheDropDownList();
         createNewsSteps.datePublicationNewsField();
         dataHelper.getDate(1);
         filterNewsSteps.buttonOkInThePopUpMessageToConfirmTheSelection();
@@ -107,10 +109,10 @@ public class CreateNewsTest {
         createNewsSteps.enteringTheTextInTheDescriptionField(checkingPage.description);
         createNewsSteps.saveNewsButton();
         controlPanelSteps.newsControlPanelSwipeToRefresh();
-        controlPanelSteps.vizibilityNewsListControlPanel();
-        newsPageSteps.vizibilityOfOneNewsBlock();
+        controlPanelPage.vizibilityNewsListControlPanel();
+        newsPage.vizibilityOfOneNewsBlock();
         controlPanelPage.buttonExpandNews.perform(click());
-        newsPageSteps.vizibilityDescriptionNews();
+        newsPage.vizibilityDescriptionNews();
         checkingPage.checkingDescriptionReadIt();
         createEndDeleneNewsSteps.deleteNewsOnTheNewsBlock();
     }
@@ -133,10 +135,10 @@ public class CreateNewsTest {
         createNewsSteps.enteringTheTextInTheDescriptionField(checkingPage.description);
         createNewsSteps.saveNewsButton();
         controlPanelSteps.newsControlPanelSwipeToRefresh();
-        controlPanelSteps.vizibilityNewsListControlPanel();
-        newsPageSteps.vizibilityOfOneNewsBlock();
+        controlPanelPage.vizibilityNewsListControlPanel();
+        newsPage.vizibilityOfOneNewsBlock();
         controlPanelPage.buttonExpandNews.perform(click());
-        newsPageSteps.vizibilityDescriptionNews();
+        newsPage.vizibilityDescriptionNews();
         checkingPage.checkingIsDisplayedAMustRead();
         createEndDeleneNewsSteps.deleteNewsOnTheNewsBlock();
     }
@@ -146,10 +148,8 @@ public class CreateNewsTest {
     public void automaticCreationTitleWhenSelectingCategory() {
         Allure.step("Автоматическое создание заголовка при выборе категории");
         filterNewsSteps.openingTheCategoryField();
-        filterNewsSteps.selectingCategoryFromTheDropDownList();
-        ViewInteraction titleText = createNewsPage.headerFieldNews;
-        titleText.check(matches(isDisplayed()));
-        titleText.check(matches(withText("День рождения")));
+        filterNewsPage.selectingCategoryFromTheDropDownList();
+        checkingPage.checkTextBirthday();
     }
 
     @Epic(value = "Тест-кейс №25")
@@ -159,10 +159,7 @@ public class CreateNewsTest {
         filterNewsSteps.openingTheCategoryField();
         filterNewsSteps.enterCategoryNewsForNewsPage();
         createNewsSteps.clickOnTheHeaderField();
-        createNewsSteps.enteringTextTitleField("Обязательно к прочтению85hgb&$)Hcdekvktlvjd85hgb&$)Hcdekvkt" +
-                "lvjd85hgb&$)Hcdekvktlvjd85hgb&\" +\n" +
-                "                    \"$)Hcdekvktlvjd85hgb&$)Hcdekvktlvjd85hgb&$)Hcdekvktlvjd85hgb&$)Hcdekvktlvjd85hg\" +\n" +
-                "                    \"b&$)Hcdekvktlvjd85hgb&$)Hcdekvktlvjd85hgb&$)Hcdekvktlvjd");
+        createNewsSteps.enteringTextTitleField(checkingPage.bigTitle);
         createNewsSteps.datePublicationNewsField();
         dataHelper.getDate(+1);
         filterNewsSteps.buttonOkInThePopUpMessageToConfirmTheSelection();
@@ -172,7 +169,7 @@ public class CreateNewsTest {
         createNewsSteps.clickDescriptionNewsField();
         createNewsSteps.enteringTheTextInTheDescriptionField(checkingPage.description);
         createNewsSteps.saveNewsButton();
-        createNewsSteps.vizibilityContainerCreateNews();
+        createNewsPage.vizibilityContainerCreateNews();
     }
 
     @Epic(value = "Тест-кейс №40")
@@ -190,13 +187,9 @@ public class CreateNewsTest {
         dataHelper.getCurrentTime();
         filterNewsSteps.buttonOkInThePopUpMessageToConfirmTheSelection();
         createNewsSteps.clickDescriptionNewsField();
-        createNewsSteps.enteringTheTextInTheDescriptionField("Читайте, читайте и не говорите, что не читали!kvktlvjd85hgb&$" +
-                ")Hcdekvktlvjd85hgb&$)Hcdekvktlvjd85hgb&$)Hcdekvktlvjd85hgb&$)Hcdekvktlvjd85hgb&$)Hcde" +
-                "                kvktlvjd85hgb&$)Hcdekvktlvjd85hgb&$)Hcdekvktlvjd85hgb&$)Hcdekvktlvjd85hgb&$)Hcdekvktlvjd85" +
-                "                vktlvjd85hgb&$)Hcdekvktlvjd85hgb&$)Hcdekvktlvjd85hgb&$)Hcdekvktlvjd85hgb&$)Hcdekvktlvjd85hgb&$)" +
-                "Hcdekvktvktlvjd85hgb&$)Hcdekvktlvjd85hgb&$)Hcdekvktlvjd85hgb&$)Hcdekvktlvjd8");
+        createNewsSteps.enteringTheTextInTheDescriptionField(checkingPage.bigDescription);
         createNewsSteps.saveNewsButton();
-        createNewsSteps.vizibilityContainerCreateNews();
+        createNewsPage.vizibilityContainerCreateNews();
     }
 
     @Epic(value = "Тест-кейс №49")

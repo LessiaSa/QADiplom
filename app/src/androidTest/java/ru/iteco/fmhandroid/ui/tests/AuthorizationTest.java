@@ -17,6 +17,7 @@ import io.qameta.allure.kotlin.Allure;
 import io.qameta.allure.kotlin.Epic;
 import ru.iteco.fmhandroid.ui.AppActivity;
 import ru.iteco.fmhandroid.ui.page.AuthorizationPage;
+import ru.iteco.fmhandroid.ui.page.MainPage;
 import ru.iteco.fmhandroid.ui.steps.AuthorizationSteps;
 import ru.iteco.fmhandroid.ui.steps.MainSteps;
 
@@ -31,20 +32,21 @@ public class AuthorizationTest {
     MainSteps mainSteps = new MainSteps();
     AuthorizationSteps authorizationSteps = new AuthorizationSteps();
     AuthorizationPage authorizationPage = new AuthorizationPage();
+    MainPage mainPage = new MainPage();
     private View decorView;
 
 
     @Before
     public void setUp() {
         try {
-            authorizationSteps.applicationHomeScreen();
+            authorizationPage.applicationHomeScreen();
             authorizationPage.titleAuthorizationText();
         } catch (Exception e) {
-            mainSteps.buttonLogOutProfile();
+            mainPage.buttonLogOutProfile();
             mainSteps.logOutPopUpOfTheProfile();
             authorizationPage.titleAuthorizationText();
             authorizationSteps.authorizWithValidData();
-            mainSteps.loadingTheMainPage();
+            mainPage.loadingTheMainPage();
         }
         mActivityScenarioRule.getScenario().onActivity(activity -> decorView = activity.getWindow().getDecorView());
     }
@@ -55,7 +57,7 @@ public class AuthorizationTest {
     public void verifyingAuthorizWithValidData() {
         Allure.step("Авторизация с валидными данными");
         authorizationSteps.authorizWithValidData();
-        mainSteps.loadingTheMainPage();
+        mainPage.loadingTheMainPage();
         mainSteps.vizibilityHomePage();
     }
 
@@ -64,7 +66,7 @@ public class AuthorizationTest {
     public void authorizationWithValidLoginAndInvalidPassword() {
         Allure.step("Авторизация с валидным логином и невалидным паролем");
         authorizationSteps.authorizationInvalidPassword();
-        mainSteps.vizibilityHomePage();
+        authorizationPage.checkingThePopUpMessageForAuthorization();
     }
 
     @Epic(value = "Тест-кейс №225")
@@ -72,7 +74,7 @@ public class AuthorizationTest {
     public void authorizationWithInvalidLoginAndValidPassword() {
         Allure.step("Авторизация с невалидным логином и валидным паролем");
         authorizationSteps.authorizationInvalidLogin();
-        mainSteps.vizibilityHomePage();
+        authorizationPage.checkingThePopUpMessageForAuthorization();
     }
 
     @Epic(value = "Тест-кейс №226")
@@ -80,7 +82,7 @@ public class AuthorizationTest {
     public void authorizationWithInvalidLoginAndInvalidPassword() {
         Allure.step("Авторизация с невалидными логином и паролем");
         authorizationSteps.authorizationWithInvalidData();
-        mainSteps.vizibilityHomePage();
+        authorizationPage.checkingThePopUpMessageForAuthorization();
     }
 
     @Epic(value = "Тест-кейс №227")
@@ -88,7 +90,7 @@ public class AuthorizationTest {
     public void loggingInWithInvalidLoginAndPasswordByClickingSeverialTimesButton() {
         Allure.step("Авторизация с невалидными логином и паролем, несколько раз нажав кнопку 'Войти'");
         authorizationSteps.authorizationClickingLogInButtonSeveralTimesWithInvalidData();
-        mainSteps.vizibilityHomePage();
+        authorizationPage.checkingThePopUpMessageForAuthorization();
     }
 
     @Epic(value = "Тест-кейс №228")
@@ -96,13 +98,13 @@ public class AuthorizationTest {
     public void authorizationWithEmptyLoginAndPassword() {
         Allure.step("Авторизация с пустыми полями логина и пароля");
         authorizationSteps.authorizationWithEmptyLoginAndPasswordFields();
-        mainSteps.vizibilityHomePage();
+        authorizationPage.checkingThePopUpMessageForAuthorization();
     }
 
     @After
     public void tearDown() {
         try {
-            mainSteps.buttonLogOutProfile();
+            mainPage.buttonLogOutProfile();
             mainSteps.logOutPopUpOfTheProfile();
         } catch (Exception ignored) {
 

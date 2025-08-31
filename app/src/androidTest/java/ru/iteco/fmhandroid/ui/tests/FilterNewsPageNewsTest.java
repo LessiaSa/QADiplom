@@ -25,6 +25,7 @@ import io.qameta.allure.kotlin.Epic;
 import ru.iteco.fmhandroid.ui.AppActivity;
 import ru.iteco.fmhandroid.ui.data.DataHelper;
 import ru.iteco.fmhandroid.ui.page.AuthorizationPage;
+import ru.iteco.fmhandroid.ui.page.MainPage;
 import ru.iteco.fmhandroid.ui.page.NewsPage;
 import ru.iteco.fmhandroid.ui.steps.AuthorizationSteps;
 import ru.iteco.fmhandroid.ui.steps.FilterNewsSteps;
@@ -44,26 +45,27 @@ public class FilterNewsPageNewsTest {
     FilterNewsSteps filterNewsSteps = new FilterNewsSteps();
     AuthorizationSteps authorizationSteps = new AuthorizationSteps();
     DataHelper dataHelper = new DataHelper();
+    MainPage mainPage = new MainPage();
     private View decorView;
 
     @Before
     public void setUp() {
         try {
-            authorizationSteps.applicationHomeScreen();
+            authorizationPage.applicationHomeScreen();
             authorizationPage.titleAuthorizationText();
             authorizationSteps.authorizWithValidData();
-            mainSteps.loadingTheMainPage();
+            mainPage.loadingTheMainPage();
             mainSteps.allNewsButtonOnTheAppsHomePage(); //нажала кнопку "Все новости" на главной
-            newsPageSteps.vizibilityOfAllNewsBlocksOnTheNewsPage();
+            newsPage.vizibilityOfAllNewsBlocksOnTheNewsPage();
             newsPageSteps.clickOnTheFilterNews();
         } catch (Exception e) {
-            mainSteps.buttonLogOutProfile();
+            mainPage.buttonLogOutProfile();
             mainSteps.logOutPopUpOfTheProfile();
             authorizationPage.titleAuthorizationText();
             authorizationSteps.authorizWithValidData();
-            mainSteps.loadingTheMainPage();
+            mainPage.loadingTheMainPage();
             mainSteps.allNewsButtonOnTheAppsHomePage(); //нажала кнопку "Все новости" на главной
-            newsPageSteps.vizibilityOfAllNewsBlocksOnTheNewsPage();
+            newsPage.vizibilityOfAllNewsBlocksOnTheNewsPage();
             newsPageSteps.clickOnTheFilterNews();
         }
         mActivityScenarioRule.getScenario().onActivity(activity -> decorView = activity.getWindow().getDecorView());
@@ -72,7 +74,7 @@ public class FilterNewsPageNewsTest {
     @After
     public void tearDown() {
         try {
-            mainSteps.buttonLogOutProfile();
+            mainPage.buttonLogOutProfile();
             mainSteps.logOutPopUpOfTheProfile();
         } catch (Exception ignored) {
 
@@ -87,7 +89,7 @@ public class FilterNewsPageNewsTest {
         filterNewsSteps.enterCategoryNewsForNewsPage();
         filterNewsSteps.openingTheCategoryField();
         filterNewsSteps.filterButtonForFilteringNews();
-        newsPageSteps.vizibilityOfAllNewsBlocksOnTheNewsPage();
+        newsPage.vizibilityOfAllNewsBlocksOnTheNewsPage();
         newsPage.newsBlockDop.check(matches(isDisplayed()));
     }
 
@@ -165,7 +167,7 @@ public class FilterNewsPageNewsTest {
     public void cancelingFilteringWhenNoFieldsAreField() {
         Allure.step("Отмена фильтрации при незаполненном ни одном поле");
         filterNewsSteps.cancelNewFilteringButton();
-        newsPageSteps.vizibilityOfAllNewsBlocksOnTheNewsPage();
+        newsPage.vizibilityOfAllNewsBlocksOnTheNewsPage();
     }
 
 }
