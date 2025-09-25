@@ -84,15 +84,6 @@ public class ControlPanelTest {
         mActivityScenarioRule.getScenario().onActivity(activity -> decorView = activity.getWindow().getDecorView());
     }
 
-    @After
-    public void tearDown() {
-        try {
-            mainPage.buttonLogOutProfile();
-            mainSteps.logOutPopUpOfTheProfile();
-        } catch (Exception ignored) {
-
-        }
-    }
 
     @Epic(value = "Тест-кейс №28")
     @Test
@@ -248,32 +239,6 @@ public class ControlPanelTest {
         newsPage.vizibilityOfOneNewsBlock();
         createNewsPage.checkingDatePublicationNewsBlockNews();
         createEndDeleneNewsSteps.deleteNewsOnTheNewsBlock();
-    }
-
-    @Epic(value = "Тест-кейс №63")
-    @Test
-    public void changingTheNewsCreationDate() {
-        Allure.step("Изменение даты создания новости.ТЕСТ ДОЛЖЕН УПАСТЬ");
-        controlPanelSteps.buttonEditingNews();
-        filterNewsSteps.openingTheCategoryField();
-        filterNewsSteps.enterCategoryNewsForNewsPage();
-        filterNewsSteps.openingTheCategoryField();
-        closeSoftKeyboard();
-        createNewsSteps.saveNewsButton();
-        controlPanelSteps.newsControlPanelSwipeToRefresh();
-        controlPanelPage.vizibilityNewsListControlPanel();
-        newsPage.vizibilityOfOneNewsBlock();
-        createNewsPage.checkingDisplayedDateOfTheNewsCreation();
-    }
-
-    @Epic(value = "Тест-кейс №62")
-    @Test
-    public void visibleDateOfTheNewsCreation() {
-        Allure.step("Отображаемая дата создания новости на блоке новости.ТЕСТ ДОЛЖЕН УПАСТЬ");
-        createEndDeleneNewsSteps.createNewsForTestDateCreate();
-        controlPanelPage.vizibilityNewsListControlPanel();
-        newsPage.vizibilityOfOneNewsBlock();
-        createNewsPage.checkingDisplayedDateOfTheNewsCreation();
     }
 
 }

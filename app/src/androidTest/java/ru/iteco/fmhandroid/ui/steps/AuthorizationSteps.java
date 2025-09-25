@@ -61,6 +61,8 @@ public class AuthorizationSteps {
 
     public static void authorizationWithEmptyLoginAndPasswordFields() {
         Allure.step("Авторизация с незаполненными полями логина и пароля");
+        authorizationPage.vizibilityLoginFieldsForPage();
+        authorizationPage.vizibilityPasswordFieldForPage();
         authorizationPage.enterButton.perform(click());
     }
 }

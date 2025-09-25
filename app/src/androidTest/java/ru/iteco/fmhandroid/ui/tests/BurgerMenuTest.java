@@ -24,6 +24,7 @@ import ru.iteco.fmhandroid.ui.page.BurgerMenuPage;
 import ru.iteco.fmhandroid.ui.page.MainPage;
 import ru.iteco.fmhandroid.ui.page.NewsPage;
 import ru.iteco.fmhandroid.ui.page.QuotePage;
+import ru.iteco.fmhandroid.ui.steps.AboutTheAppSteps;
 import ru.iteco.fmhandroid.ui.steps.AuthorizationSteps;
 import ru.iteco.fmhandroid.ui.steps.MainSteps;
 import ru.iteco.fmhandroid.ui.steps.NewsPageSteps;
@@ -43,6 +44,7 @@ public class BurgerMenuTest {
     BurgerMenuPage burgerMenuPage = new BurgerMenuPage();
     MainPage mainPage = new MainPage();
     QuotePage quotePage = new QuotePage();
+    AboutTheAppSteps aboutTheAppSteps = new AboutTheAppSteps();
     private View decorView;
 
     @Before
@@ -62,14 +64,6 @@ public class BurgerMenuTest {
         mActivityScenarioRule.getScenario().onActivity(activity -> decorView = activity.getWindow().getDecorView());
     }
 
-    @After
-    public void tearDown() {
-        try {
-            mainPage.buttonLogOutProfile();
-            mainSteps.logOutPopUpOfTheProfile();
-        } catch (Exception ignored) {
-        }
-    }
 
     @Epic(value = "Тест-кейс №75")
     @Test
@@ -87,7 +81,7 @@ public class BurgerMenuTest {
         Allure.step("Переход на страницу 'О приложении' с главной");
         mainSteps.buttonBurgerMenuOfTheDifferentPages();
         burgerMenuPage.selectingAboutAppPageInBurgerMenu();
-        aboutTheAppPage.vizibilityAboutTheAppPage();
+        aboutTheAppSteps.vizibilityAboutTheAppPage();
         aboutTheAppPage.titleAboutTheApp.check(matches(isDisplayed()));
     }
 

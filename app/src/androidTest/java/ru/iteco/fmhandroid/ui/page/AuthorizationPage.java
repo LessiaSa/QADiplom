@@ -17,13 +17,11 @@ import static ru.iteco.fmhandroid.ui.data.DataHelper.waitDisplayed;
 import android.view.View;
 
 import androidx.test.espresso.ViewInteraction;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import org.hamcrest.Matchers;
 
 import io.qameta.allure.kotlin.Allure;
 import ru.iteco.fmhandroid.R;
-import ru.iteco.fmhandroid.ui.AppActivity;
 
 public class AuthorizationPage {
     public static int authorizationButtonEnter = R.id.enter_button;
@@ -36,6 +34,9 @@ public class AuthorizationPage {
     public static ViewInteraction passwordField;
     public int loginLayout;
     public int passwordLayout;
+    public String errorMessage = "Что-то пошло не так. Попробуйте позднее.";
+    public String errorMessage2 = "Логин и пароль не могут быть пустыми";
+    public View decorView;
 
 
     public AuthorizationPage() {
@@ -84,15 +85,10 @@ public class AuthorizationPage {
         onView(isRoot()).perform(waitDisplayed(getPasswordLayout(), 5000));
     }
 
-    public void checkingThePopUpMessageForAuthorization() {
-        ActivityScenarioRule<AppActivity> mActivityScenarioRule =
-                new ActivityScenarioRule<>(AppActivity.class);
-        var ref = new Object() {
-            View decorView;
-        };
-        mActivityScenarioRule.getScenario().onActivity(activity -> ref.decorView = activity.getWindow().getDecorView());
-        onView(withText("Неверные данные"))
-                .inRoot(withDecorView(Matchers.not(ref.decorView)))
+    public void checkToastMessage(String text, View decorView) {
+        Allure.step("Проверка отображения текста ошибки" + text);
+        onView(withText(text))
+                .inRoot(withDecorView(Matchers.not(decorView)))
                 .check(matches(isDisplayed()));
     }
 }

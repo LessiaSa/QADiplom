@@ -71,16 +71,6 @@ public class FilterNewsPageNewsTest {
         mActivityScenarioRule.getScenario().onActivity(activity -> decorView = activity.getWindow().getDecorView());
     }
 
-    @After
-    public void tearDown() {
-        try {
-            mainPage.buttonLogOutProfile();
-            mainSteps.logOutPopUpOfTheProfile();
-        } catch (Exception ignored) {
-
-        }
-    }
-
     @Epic(value = "Тест-кейс №9")
     @Test
     public void filteringNewsCategoryWithoutFillingInTheOtherField() {

@@ -16,8 +16,5 @@ AboutTheAppPage {
     public static ViewInteraction titleAboutTheApp = onView(withId(R.id.about_version_title_text_view));
     public static ViewInteraction buttonBackAboutTheApp = onView(withId(R.id.about_back_image_button));
 
-    public void vizibilityAboutTheAppPage() {
-        Allure.step("Видимость страницы 'О приложении'");
-        onView(isRoot()).perform(waitDisplayed(aboutAppBlock, 5000));
-    }
+
 }

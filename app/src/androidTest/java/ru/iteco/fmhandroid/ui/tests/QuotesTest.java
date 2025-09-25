@@ -58,14 +58,6 @@ public class QuotesTest {
         mActivityScenarioRule.getScenario().onActivity(activity -> decorView = activity.getWindow().getDecorView());
     }
 
-    @After
-    public void tearDown() {
-        try {
-            mainPage.buttonLogOutProfile();
-            mainSteps.logOutPopUpOfTheProfile();
-        } catch (Exception ignored) {
-        }
-    }
 
     @Epic(value = "Тест-кейс №71")
     @Test

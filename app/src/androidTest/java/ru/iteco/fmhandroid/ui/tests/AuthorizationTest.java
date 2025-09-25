@@ -3,6 +3,7 @@ package ru.iteco.fmhandroid.ui.tests;
 
 import android.view.View;
 
+import androidx.test.core.app.ActivityScenario;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.filters.LargeTest;
 
@@ -27,16 +28,25 @@ import ru.iteco.fmhandroid.ui.steps.MainSteps;
 public class AuthorizationTest {
 
     @Rule
-    public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
+    public ActivityScenarioRule<AppActivity> activityTestRule =
             new ActivityScenarioRule<>(AppActivity.class);
     MainSteps mainSteps = new MainSteps();
     AuthorizationSteps authorizationSteps = new AuthorizationSteps();
     AuthorizationPage authorizationPage = new AuthorizationPage();
     MainPage mainPage = new MainPage();
-    private View decorView;
+    public View decorView;
 
 
     @Before
+    public void setDecorView() {
+        activityTestRule.getScenario().onActivity(new ActivityScenario.ActivityAction<AppActivity>() {
+            @Override
+            public void perform(AppActivity activity) {
+                decorView = activity.getWindow().getDecorView();
+            }
+        });
+    }
+
     public void setUp() {
         try {
             authorizationPage.applicationHomeScreen();
@@ -48,7 +58,7 @@ public class AuthorizationTest {
             authorizationSteps.authorizWithValidData();
             mainPage.loadingTheMainPage();
         }
-        mActivityScenarioRule.getScenario().onActivity(activity -> decorView = activity.getWindow().getDecorView());
+
     }
 
 
@@ -66,15 +76,17 @@ public class AuthorizationTest {
     public void authorizationWithValidLoginAndInvalidPassword() {
         Allure.step("Авторизация с валидным логином и невалидным паролем");
         authorizationSteps.authorizationInvalidPassword();
-        authorizationPage.checkingThePopUpMessageForAuthorization();
+        authorizationPage.checkToastMessage(authorizationPage.errorMessage, decorView);
+
     }
+
 
     @Epic(value = "Тест-кейс №225")
     @Test
     public void authorizationWithInvalidLoginAndValidPassword() {
         Allure.step("Авторизация с невалидным логином и валидным паролем");
         authorizationSteps.authorizationInvalidLogin();
-        authorizationPage.checkingThePopUpMessageForAuthorization();
+        authorizationPage.checkToastMessage(authorizationPage.errorMessage, decorView);
     }
 
     @Epic(value = "Тест-кейс №226")
@@ -82,7 +94,8 @@ public class AuthorizationTest {
     public void authorizationWithInvalidLoginAndInvalidPassword() {
         Allure.step("Авторизация с невалидными логином и паролем");
         authorizationSteps.authorizationWithInvalidData();
-        authorizationPage.checkingThePopUpMessageForAuthorization();
+        authorizationPage.checkToastMessage(authorizationPage.errorMessage, decorView);
+
     }
 
     @Epic(value = "Тест-кейс №227")
@@ -90,7 +103,8 @@ public class AuthorizationTest {
     public void loggingInWithInvalidLoginAndPasswordByClickingSeverialTimesButton() {
         Allure.step("Авторизация с невалидными логином и паролем, несколько раз нажав кнопку 'Войти'");
         authorizationSteps.authorizationClickingLogInButtonSeveralTimesWithInvalidData();
-        authorizationPage.checkingThePopUpMessageForAuthorization();
+        authorizationPage.checkToastMessage(authorizationPage.errorMessage, decorView);
+
     }
 
     @Epic(value = "Тест-кейс №228")
@@ -98,7 +112,8 @@ public class AuthorizationTest {
     public void authorizationWithEmptyLoginAndPassword() {
         Allure.step("Авторизация с пустыми полями логина и пароля");
         authorizationSteps.authorizationWithEmptyLoginAndPasswordFields();
-        authorizationPage.checkingThePopUpMessageForAuthorization();
+        authorizationPage.checkToastMessage(authorizationPage.errorMessage2, decorView);
+
     }
 
     @After
