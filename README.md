@@ -12,7 +12,7 @@
 
 ## Отчеты:
   
- - [Allure-zip](https://github.com/LessiaSa/QADiplom/blob/main/allure-report.7z)
+ - [Allure-zip](https://github.com/LessiaSa/QADiplom/blob/main/allure-results.zip)
 
 - [Profiler-отчет](https://github.com/LessiaSa/QADiplom/tree/main/ProfilerResults)
 
@@ -74,6 +74,7 @@
 <br>
 
 > P.S. Не забудьте удалить лишние файлы, которые были добавлены в проект при сохранении allure-result в корневую директорию проекта 😉.
+
 
 
 
